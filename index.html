@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T-38C Boldface & Operating Limitations</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f0f2f5;
+      font-family: "Times New Roman", Times, Georgia, serif;
+      color: #000;
+      padding: 24px 12px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 1-to-1 Document Container (960px width) */
+    .document-page {
+      background: #ffffff;
+      width: 100%;
+      max-width: 960px;
+      border: 2px solid #000;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      display: none;
+    }
+
+    .document-page.active-page {
+      display: block;
+    }
+
+    /* ================= PAGE 1 STYLES ================= */
+    .doc-header-title {
+      border-bottom: 1.5px solid #000;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 6px 10px;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 1.5px solid #000;
+      font-size: 13.5px;
+    }
+
+    .meta-cell {
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .meta-cell:not(:last-child) {
+      border-right: 1.5px solid #000;
+    }
+
+    .meta-cell label {
+      font-size: 13px;
+      margin-right: 6px;
+      white-space: nowrap;
+    }
+
+    .meta-cell input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13.5px;
+      background: transparent;
+    }
+
+    .section-title {
+      border-bottom: 1.5px solid #000;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 5px 8px;
+      background: #fff;
+    }
+
+    .proc-block {
+      border-bottom: 1.5px solid #000;
+      padding: 8px 12px 10px;
+      transition: background-color 0.2s ease;
+      position: relative;
+    }
+
+    .proc-block:last-child {
+      border-bottom: none;
+    }
+
+    .proc-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: none;
+    }
+
+    .proc-textarea {
+      width: 100%;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 14.5px;
+      font-weight: bold;
+      line-height: 1.45;
+      color: #000;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: vertical;
+      padding: 0;
+    }
+
+    #block-1 .proc-textarea { min-height: 52px; }
+    #block-2 .proc-textarea { min-height: 72px; }
+    #block-3 .proc-textarea { min-height: 38px; }
+    #block-4 .proc-textarea { min-height: 72px; }
+    #block-5 .proc-textarea { min-height: 38px; }
+    #block-6 .proc-textarea { min-height: 52px; }
+    #block-7 .proc-textarea { min-height: 72px; }
+
+    /* ================= PAGE 2 1-TO-1 TABLES ================= */
+    table.one-to-one-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      table-layout: fixed;
+    }
+
+    table.one-to-one-table th, table.one-to-one-table td {
+      border: 1px solid #000;
+      padding: 4px 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    table.one-to-one-table th {
+      font-weight: bold;
+      background: #ffffff;
+    }
+
+    .sub-head {
+      font-weight: bold;
+      background: #ffffff;
+      text-align: center;
+      padding: 3px 0;
+    }
+
+    .shaded {
+      background-color: #e2e4e8;
+    }
+
+    /* Underlined Fill-In Blanks */
+    .blank-input {
+      border: none;
+      border-bottom: 1.5px solid #000;
+      background: transparent;
+      outline: none;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+      padding: 0 1px;
+      color: #000;
+      transition: background-color 0.15s ease;
+    }
+
+    .blank-input:focus {
+      border-bottom: 2px solid #1976d2;
+    }
+
+    .w-30 { width: 30px; }
+    .w-35 { width: 35px; }
+    .w-40 { width: 40px; }
+    .w-50 { width: 50px; }
+    .w-60 { width: 60px; }
+    .w-75 { width: 75px; }
+
+    /* Notes under Engine Table */
+    .engine-notes-block {
+      padding: 6px 8px;
+      font-size: 11px;
+      line-height: 1.45;
+      border-bottom: 1px solid #000;
+      text-align: justify;
+    }
+
+    .engine-notes-block p {
+      margin-bottom: 4px;
+    }
+
+    .engine-notes-block strong {
+      font-size: 11.5px;
+    }
+
+    /* Caution Box Inside Table */
+    .caution-inner-cell {
+      text-align: justify !important;
+      font-size: 10.5px !important;
+      line-height: 1.35 !important;
+      padding: 6px 8px !important;
+      vertical-align: middle !important;
+    }
+
+    /* DASH -1 Prohibited Maneuvers */
+    .prohibited-title {
+      font-weight: bold;
+      text-align: center;
+      padding: 4px 0;
+      font-size: 12.5px;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+    }
+
+    .prohibited-row-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid #000;
+    }
+
+    .prohibited-box {
+      padding: 6px 8px;
+      min-height: 60px;
+    }
+
+    .prohibited-box:first-child {
+      border-right: 1px solid #000;
+    }
+
+    .prohibited-box-full {
+      padding: 6px 8px;
+      min-height: 60px;
+    }
+
+    .prohibited-hdr {
+      font-weight: bold;
+      font-size: 12.5px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .prohibited-textarea {
+      width: 100%;
+      min-height: 38px;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12.5px;
+      font-weight: bold;
+      resize: vertical;
+    }
+
+    /* Grading Colors */
+    .correct-box {
+      background-color: #e6f4ea !important;
+    }
+
+    .correct-box .status-text {
+      display: inline-block;
+      color: #1e7e34;
+    }
+
+    .incorrect-box {
+      background-color: #fce8e6 !important;
+    }
+
+    .incorrect-box .status-text {
+      display: inline-block;
+      color: #d93025;
+    }
+
+    input.correct-input {
+      background-color: #e6f4ea !important;
+      border-bottom-color: #1e7e34 !important;
+      color: #137333 !important;
+    }
+
+    input.incorrect-input {
+      background-color: #fce8e6 !important;
+      border-bottom-color: #d93025 !important;
+      color: #c5221f !important;
+    }
+
+    .solution-panel {
+      display: none;
+      margin-top: 6px;
+      padding: 5px 8px;
+      background: #ffffff;
+      border: 1px solid #d93025;
+      border-radius: 2px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #b31412;
+      white-space: pre-wrap;
+      line-height: 1.35;
+    }
+
+    .solution-panel .label {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      color: #666;
+      display: block;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    /* ================= CONTROLS & MINIMALIST BUTTONS ================= */
+    .controls-panel {
+      width: 100%;
+      max-width: 960px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .score-banner {
+      display: none;
+      width: 100%;
+      padding: 10px 14px;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      border-radius: 4px;
+    }
+
+    .score-pass {
+      background-color: #e6f4ea;
+      color: #137333;
+      border: 1px solid #ceead6;
+    }
+
+    .score-fail {
+      background-color: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #fad2cf;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease-in-out;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+      filter: brightness(0.92);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Green: Check Answers */
+    .btn-green {
+      background-color: #2e7d32;
+      color: #ffffff;
+    }
+
+    /* Red: Reset */
+    .btn-red {
+      background-color: #d32f2f;
+      color: #ffffff;
+    }
+
+    /* Yellow: Key */
+    .btn-yellow {
+      background-color: #f59e0b;
+      color: #111827;
+    }
+
+    /* Blue: Flip Page */
+    .btn-blue {
+      background-color: #1976d2;
+      color: #ffffff;
+    }
+
+    /* Subtitle Under Buttons */
+    .doc-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #000000;
+      letter-spacing: 1.2px;
+      text-align: center;
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= PAGE 1: BOLDFACE ================= -->
+  <div class="document-page active-page" id="page-1">
+    
+    <div class="doc-header-title">
+      T-38C Boldface Emergency Procedures and Operating Limitations (Nov 16)
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-cell">
+        <label for="name">Name</label>
+        <input type="text" id="name" autocomplete="off">
+      </div>
+      <div class="meta-cell">
+        <label for="checkedBy">Checked By</label>
+        <input type="text" id="checkedBy" autocomplete="off">
+      </div>
+      <div class="meta-cell">
+        <label for="dateCompleted">Date Completed</label>
+        <input type="text" id="dateCompleted" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="section-title">
+      Section 1. Boldface Emergency Procedures
+    </div>
+
+    <!-- 1. Abort -->
+    <div class="proc-block" id="block-1">
+      <div class="proc-title">
+        <span>Abort</span>
+        <span class="status-text" id="badge-1"></span>
+      </div>
+      <textarea class="proc-textarea" id="input-1" spellcheck="false"></textarea>
+      <div class="solution-panel" id="sol-1">
+        <span class="label">Correct Answer:</span>THROTTLES - IDLE
+WHEEL BRAKES - AS REQUIRED
+      </div>
+    </div>
+
+    <!-- 2. Engine Failure / Fire Warning During Takeoff, Takeoff Continued -->
+    <div class="proc-block" id="block-2">
+      <div class="proc-title">
+        <span>Engine Failure / Fire Warning During Takeoff, Takeoff Continued</span>
+        <span class="status-text" id="badge-2"></span>
+      </div>
+      <textarea class="proc-textarea" id="input-2" spellcheck="false"></textarea>
+      <div class="solution-panel" id="sol-2">
+        <span class="label">Correct Answer:</span>THROTTLES - MAX
+FLAPS - 60%
+AIRSPEED - ATTAIN SETOS MINIMUM
+      </div>
+    </div>
+
+    <!-- 3. Tire Failure During Takeoff, Takeoff Continued -->
+    <div class="proc-block" id="block-3">
+      <div class="proc-title">
+        <span>Tire Failure During Takeoff, Takeoff Continued</span>
+        <span class="status-text" id="badge-3"></span>
+      </div>
+      <textarea class="proc-textarea" id="input-3" spellcheck="false"></textarea>
+      <div class="solution-panel" id="sol-3">
+        <span class="label">Correct Answer:</span>GEAR - DO NOT RETRACT
+      </div>
+    </div>
+
+    <!-- 4. Fire Warning During Flight (Affected Engine) -->
+    <div class="proc-block" id="block-4">
+      <div class="proc-title">
+        <span>Fire Warning During Flight (Affected Engine)</span>
+        <span class="status-text" id="badge-4"></span>
+      </div>
+      <textarea class="proc-textarea" id="input-4" spellcheck="false"></textarea>
+      <div class="solution-panel" id="sol-4">
+        <span class="label">Correct Answer:</span>THROTTLE - IDLE
+THROTTLE - OFF, IF FIRE LIGHT REMAINS ON
+IF FIRE IS CONFIRMED - EJECT
+      </div>
+    </div>
+
+    <!-- 5. Ejection -->
+    <div class="proc-block" id="block-5">
+      <div class="proc-title">
+        <span>Ejection</span>
+        <span class="status-text" id="badge-5"></span>
+      </div>
+      <textarea class="proc-textarea" id="input-5" spellcheck="false"></textarea>
+      <div class="solution-panel" id="sol-5">
+        <span class="label">Correct Answer:</span>EJECTION HANDLE - PULL
+      </div>
+    </div>
+
+    <!-- 6. Alternate Airstart / Loss of Thrust (Low Altitude) -->
+    <div class="proc-block" id="block-6">
+      <div class="proc-title">
+        <span>Alternate Airstart / Loss of Thrust (Low Altitude)</span>
+        <span class="status-text" id="badge-6"></span>
+      </div>
+      <textarea class="proc-textarea" id="input-6" spellcheck="false"></textarea>
+      <div class="solution-panel" id="sol-6">
+        <span class="label">Correct Answer:</span>THROTTLE(S) - MAX
+SPEED BRAKE - CONFIRM CLOSED
+      </div>
+    </div>
+
+    <!-- 7. Single-Engine Go-Around -->
+    <div class="proc-block" id="block-7">
+      <div class="proc-title">
+        <span>Single-Engine Go-Around</span>
+        <span class="status-text" id="badge-7"></span>
+      </div>
+      <textarea class="proc-textarea" id="input-7" spellcheck="false"></textarea>
+      <div class="solution-panel" id="sol-7">
+        <span class="label">Correct Answer:</span>THROTTLE(S) - MAX
+FLAPS - 60%
+AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= PAGE 2: OPERATING LIMITATIONS (1-TO-1) ================= -->
+  <div class="document-page" id="page-2">
+    <div class="section-title">
+      Section 2. Operating Limitations
+    </div>
+
+    <!-- Engine Table -->
+    <table class="one-to-one-table">
+      <thead>
+        <tr>
+          <th rowspan="2" style="width: 17%;">Condition</th>
+          <th colspan="6">Engine</th>
+        </tr>
+        <tr>
+          <th style="width: 13%;">EGT<br>°C</th>
+          <th style="width: 13%;">RPM<br>%</th>
+          <th style="width: 13%;">Nozzle Position<br>%</th>
+          <th style="width: 20%;">Fuel Flow<br>LB / HR</th>
+          <th style="width: 13%;">Oil Pressure<br>PSI</th>
+          <th style="width: 11%;">Time Duration<br>(Minutes)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sub-head"><td colspan="7">Ground Steady State</td></tr>
+        <!-- Start -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Start</td>
+          <td>*<input class="blank-input w-35" data-ans="925"> (Max) <input class="blank-input w-35" data-ans="845"></td>
+          <td class="shaded"></td>
+          <td class="shaded"></td>
+          <td>***<input class="blank-input w-40" data-ans="360"> (Max)</td>
+          <td>****</td>
+          <td class="shaded"></td>
+        </tr>
+        <!-- Idle -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Idle</td>
+          <td class="shaded"></td>
+          <td><input class="blank-input w-35" data-ans="46"> - <input class="blank-input w-35" data-ans="50"></td>
+          <td><input class="blank-input w-35" data-ans="77"> - <input class="blank-input w-35" data-ans="92"></td>
+          <td><input class="blank-input w-35" data-ans="400"> - <input class="blank-input w-35" data-ans="600"> (Std Day)</td>
+          <td><input class="blank-input w-35" data-ans="5"> - <input class="blank-input w-35" data-ans="20"></td>
+          <td class="shaded"></td>
+        </tr>
+        <!-- Military -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Military</td>
+          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
+          <td><input class="blank-input w-35" data-ans="0"> - <input class="blank-input w-35" data-ans="20"></td>
+          <td><input class="blank-input w-40" data-ans="2100"> - <input class="blank-input w-40" data-ans="2700"> (Sea Level)</td>
+          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+          <td><input class="blank-input w-30" data-ans="5"></td>
+        </tr>
+        <!-- (Max) / Afterburner -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
+          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
+          <td><input class="blank-input w-35" data-ans="50"> - <input class="blank-input w-35" data-ans="85"></td>
+          <td class="shaded"></td>
+          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+          <td><input class="blank-input w-30" data-ans="5"></td>
+        </tr>
+
+        <tr class="sub-head"><td colspan="7">Flight Steady State</td></tr>
+        <!-- Start -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Start</td>
+          <td>*<input class="blank-input w-40" data-ans="925"> (Max)</td>
+          <td class="shaded"></td>
+          <td class="shaded"></td>
+          <td>***<input class="blank-input w-40" data-ans="360"> (Max)</td>
+          <td>****</td>
+          <td class="shaded"></td>
+        </tr>
+        <!-- Idle -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Idle</td>
+          <td class="shaded"></td>
+          <td class="shaded"></td>
+          <td class="shaded"></td>
+          <td><input class="blank-input w-40" data-ans="200"> (Min) (Std Day)</td>
+          <td><input class="blank-input w-35" data-ans="5"> (Min)</td>
+          <td class="shaded"></td>
+        </tr>
+        <!-- Military -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Military</td>
+          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="104"></td>
+          <td><input class="blank-input w-35" data-ans="0"> - <input class="blank-input w-35" data-ans="20"></td>
+          <td class="shaded"></td>
+          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+          <td><input class="blank-input w-30" data-ans="30"></td>
+        </tr>
+        <!-- (Max) / Afterburner -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
+          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="104"></td>
+          <td><input class="blank-input w-35" data-ans="50"> - <input class="blank-input w-35" data-ans="85"></td>
+          <td class="shaded"></td>
+          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+          <td><input class="blank-input w-30" data-ans="15"></td>
+        </tr>
+
+        <tr class="sub-head"><td colspan="7">Fluctuation Limits (Within Steady State Limits)</td></tr>
+        <!-- Idle (Ground) -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Idle (Ground)</td>
+          <td class="shaded"></td>
+          <td><input class="blank-input w-35" data-ans="46"> - <input class="blank-input w-35" data-ans="50"></td>
+          <td>None Allowed</td>
+          <td>± <input class="blank-input w-35" data-ans="25"></td>
+          <td>± <input class="blank-input w-30" data-ans="2"></td>
+          <td class="shaded"></td>
+        </tr>
+        <!-- MIL and AB (Ground) -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">MIL and AB<br>(Ground)</td>
+          <td>**</td>
+          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
+          <td>± <input class="blank-input w-30" data-ans="3"></td>
+          <td>± <input class="blank-input w-35" data-ans="50"></td>
+          <td>± <input class="blank-input w-30" data-ans="2"></td>
+          <td class="shaded"></td>
+        </tr>
+        <!-- MIL and AB (Flight) -->
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">MIL and AB (Flight)</td>
+          <td>**</td>
+          <td>± <input class="blank-input w-30" data-ans="1"></td>
+          <td>± <input class="blank-input w-30" data-ans="3"></td>
+          <td>± <input class="blank-input w-35" data-ans="50"></td>
+          <td>± <input class="blank-input w-30" data-ans="2"></td>
+          <td class="shaded"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Engine Notes Block (Exact Match) -->
+    <div class="engine-notes-block">
+      <p><strong>EGT:</strong> *Abort start if EGT reaches <input class="blank-input w-35" data-ans="845">°C to preclude exceeding temperature limits. Abort aircraft during ground start if EGT exceeds <input class="blank-input w-35" data-ans="925">°C momentarily. ** Total fluctuations in EGT of <input class="blank-input w-30" data-ans="15">°C (± <input class="blank-input w-35" data-ans="7.5"> °C) are acceptable if the average EGT is between <input class="blank-input w-35" data-ans="630">°C and <input class="blank-input w-35" data-ans="650"> °C.</p>
+      <p><strong>RPM:</strong> Maximum allowable transient RPM <input class="blank-input w-35" data-ans="107"> %.</p>
+      <p><strong>Nozzle Position:</strong> Following rapid throttle movements, nozzle position should stabilize within permissible fluctuation range within <input class="blank-input w-30" data-ans="10"> seconds.</p>
+      <p><strong>Fuel Flow:</strong> ***During engine start the indicated fuel flow may momentarily transit above <input class="blank-input w-35" data-ans="360"> LB/HR after advancing the throttle to idle during engine sequence but should return to equal to or less than <input class="blank-input w-35" data-ans="360"> LB/HR prior to EGT rise during actual engine start.</p>
+      <p><strong>Oil Pressure:</strong> ****Do not advance throttle above idle without a positive (&gt;0) indication of oil pressure. During cold weather, oil pressure may exceed limitations. This is normal indication as long as the oil pressure continues to decrease as engine oil warms. Do not exceed <input class="blank-input w-30" data-ans="5"> minutes in military power with oil pressure above <input class="blank-input w-30" data-ans="55"> PSI. If a sudden change of <input class="blank-input w-30" data-ans="10"> PSI or greater in oil pressure indication occurs at any stabilized RPM, follow engine oil system malfunction procedures in Section III of the DASH 1.</p>
+    </div>
+
+    <!-- Combined Airspeed & Load Factor 1-to-1 Grid Table -->
+    <table class="one-to-one-table">
+      <thead>
+        <tr>
+          <th colspan="2" style="width: 48%;">Airspeed</th>
+          <th colspan="3" style="width: 52%;">Load Factor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left; padding-left: 6px; width: 28%;">Flaps 1% - 45%</td>
+          <td style="text-align: right; padding-right: 8px; width: 20%;"><input class="blank-input w-50" data-ans="300"> KCAS</td>
+          <td style="font-weight: bold; width: 16%;">Fuel (LBS)</td>
+          <td style="font-weight: bold; width: 18%;">Max Sym G</td>
+          <td style="font-weight: bold; width: 18%;">Max Asym G</td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Flaps 46% - 60%</td>
+          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="240"> KCAS</td>
+          <td>3500</td>
+          <td><input class="blank-input w-30" data-ans="-2.3"> to <input class="blank-input w-30" data-ans="+5.7"></td>
+          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.1"></td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Flaps Over 60%</td>
+          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="220"> KCAS</td>
+          <td>3000</td>
+          <td><input class="blank-input w-30" data-ans="-2.4"> to <input class="blank-input w-30" data-ans="+5.9"></td>
+          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.3"></td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Canopy</td>
+          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="50"> KCAS</td>
+          <td>2000</td>
+          <td><input class="blank-input w-30" data-ans="-2.6"> to <input class="blank-input w-30" data-ans="+6.5"></td>
+          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.7"></td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Gear / Gear Doors</td>
+          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="240"> KCAS</td>
+          <td>1000</td>
+          <td><input class="blank-input w-30" data-ans="-2.9"> to <input class="blank-input w-30" data-ans="+7.2"></td>
+          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+5.0"></td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Nose Wheel Steering</td>
+          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="65"> Kts GS</td>
+          <td colspan="3" rowspan="3" class="caution-inner-cell">
+            <strong>Caution:</strong> Extension / retraction of landing gear at bank angles greater than <input class="blank-input w-30" data-ans="45"> ° or at load factors greater than <input class="blank-input w-30" data-ans="1.5"> G can result in overstress failure of the main landing gear sidebrace trunnion.
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Main Wheel Tire</td>
+          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="221"> Kts GS</td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Nose Wheel Tire</td>
+          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="174"> Kts GS</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Hydraulic & Oxygen Pressure 1-to-1 Table -->
+    <table class="one-to-one-table">
+      <thead>
+        <tr>
+          <th colspan="4" style="width: 48%;">Hydraulic Pressure</th>
+          <th colspan="2" style="width: 52%;">Oxygen Pressure</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="width: 12%; text-align: left; padding-left: 6px;">Min PSI</td>
+          <td style="width: 12%;"><input class="blank-input w-50" data-ans="1500"></td>
+          <td style="width: 12%; text-align: left; padding-left: 6px;">Max PSI</td>
+          <td style="width: 12%;"><input class="blank-input w-50" data-ans="3200"></td>
+          <td style="width: 20%; text-align: left; padding-left: 8px;">Normal Range</td>
+          <td style="width: 32%; text-align: center;"><input class="blank-input w-35" data-ans="50"> PSI to <input class="blank-input w-35" data-ans="120"> PSI</td>
+        </tr>
+        <tr>
+          <td style="text-align: left; padding-left: 6px;">Normal Range</td>
+          <td colspan="3"><input class="blank-input w-50" data-ans="2850"> PSI to <input class="blank-input w-50" data-ans="3200"> PSI</td>
+          <td colspan="2" class="shaded" style="height: 24px;"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- WSSP Limitations & Airspeed Limits Table -->
+    <table class="one-to-one-table">
+      <tbody>
+        <tr>
+          <td style="width: 20%; font-weight: bold; text-align: left; padding-left: 6px;">WSSP Limitations:</td>
+          <td style="width: 25%;">Sym &nbsp;<input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-35" data-ans="+4.0"></td>
+          <td style="width: 25%;">Asym &nbsp;<input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-35" data-ans="+3.0"></td>
+          <td style="width: 30%;">Normal Capacity &nbsp;<input class="blank-input w-40" data-ans="140"> LBS</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold; text-align: left; padding-left: 6px;">Airspeed Limits:</td>
+          <td>Max &nbsp;<input class="blank-input w-50" data-ans="400"> KCAS</td>
+          <td>SB Open / Turbulence &nbsp;<input class="blank-input w-40" data-ans="350"> KCAS</td>
+          <td>Abrupt Control &nbsp;<input class="blank-input w-40" data-ans="240"> KCAS</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- DASH -1 Prohibited Maneuvers (Exact 1-to-1 Box Format) -->
+    <div class="prohibited-title">
+      DASH -1 Prohibited Maneuvers
+    </div>
+    <div class="prohibited-row-split">
+      <div class="prohibited-box" id="maneuver-block-1">
+        <div class="prohibited-hdr">
+          <span>1.</span>
+          <span class="status-text" id="maneuver-badge-1"></span>
+        </div>
+        <textarea class="prohibited-textarea" id="maneuver-input-1" spellcheck="false"></textarea>
+        <div class="solution-panel" id="maneuver-sol-1">
+          <span class="label">Correct Answer:</span>Vertical Stalls
+        </div>
+      </div>
+      <div class="prohibited-box" id="maneuver-block-2">
+        <div class="prohibited-hdr">
+          <span>2.</span>
+          <span class="status-text" id="maneuver-badge-2"></span>
+        </div>
+        <textarea class="prohibited-textarea" id="maneuver-input-2" spellcheck="false"></textarea>
+        <div class="solution-panel" id="maneuver-sol-2">
+          <span class="label">Correct Answer:</span>Intentional Spins
+        </div>
+      </div>
+    </div>
+    <div class="prohibited-box-full" id="maneuver-block-3">
+      <div class="prohibited-hdr">
+        <span>3.</span>
+        <span class="status-text" id="maneuver-badge-3"></span>
+      </div>
+      <textarea class="prohibited-textarea" id="maneuver-input-3" spellcheck="false"></textarea>
+      <div class="solution-panel" id="maneuver-sol-3">
+        <span class="label">Correct Answer:</span>Continuous aileron rolls at other than 1.0g and/or greater than 3/4 stick deflection.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= MINIMALIST COLOR-CODED CONTROLS ================= -->
+  <div class="controls-panel">
+    <div id="scoreBanner" class="score-banner"></div>
+    <div class="button-group">
+      <!-- Green: Check Answers -->
+      <button class="btn btn-green" onclick="checkCurrentPage()">Check Answers</button>
+      <!-- Red: Reset -->
+      <button class="btn btn-red" onclick="resetCurrentPage()">Reset</button>
+      <!-- Yellow: Key -->
+      <button class="btn btn-yellow" onclick="toggleCurrentPageKey()">Key</button>
+      <!-- Blue: Flip Page -->
+      <button class="btn btn-blue" id="flipPageBtn" onclick="flipPage()">Flip Page (Section 2 &rarr;)</button>
+    </div>
+    <!-- Subtitle under buttons -->
+    <div class="doc-subtitle">CAO NOV 16 2025</div>
+  </div>
+
+  <script>
+    let currentPage = 1;
+
+    /* Master Key for Section 1 Boldface */
+    const masterKeySec1 = [
+      {
+        id: 1,
+        expectedLines: [
+          ["THROTTLES - IDLE"],
+          ["WHEEL BRAKES - AS REQUIRED"]
+        ]
+      },
+      {
+        id: 2,
+        expectedLines: [
+          ["THROTTLES - MAX"],
+          ["FLAPS - 60%"],
+          ["AIRSPEED - ATTAIN SETOS MINIMUM"]
+        ]
+      },
+      {
+        id: 3,
+        expectedLines: [
+          ["GEAR - DO NOT RETRACT"]
+        ]
+      },
+      {
+        id: 4,
+        expectedLines: [
+          ["THROTTLE - IDLE"],
+          ["THROTTLE - OFF, IF FIRE LIGHT REMAINS ON", "THROTTLE - OFF IF FIRE LIGHT REMAINS ON"],
+          ["IF FIRE IS CONFIRMED - EJECT"]
+        ]
+      },
+      {
+        id: 5,
+        expectedLines: [
+          ["EJECTION HANDLE - PULL"]
+        ]
+      },
+      {
+        id: 6,
+        expectedLines: [
+          ["THROTTLE(S) - MAX", "THROTTLES - MAX", "THROTTLE - MAX"],
+          ["SPEED BRAKE - CONFIRM CLOSED"]
+        ]
+      },
+      {
+        id: 7,
+        expectedLines: [
+          ["THROTTLE(S) - MAX", "THROTTLES - MAX", "THROTTLE - MAX"],
+          ["FLAPS - 60%"],
+          ["AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM"]
+        ]
+      }
+    ];
+
+    /* Section 2 Prohibited Maneuvers Key */
+    const maneuversKey = [
+      {
+        id: 1,
+        expected: ["VERTICAL STALLS"]
+      },
+      {
+        id: 2,
+        expected: ["INTENTIONAL SPINS"]
+      },
+      {
+        id: 3,
+        expected: [
+          "CONTINUOUS AILERON ROLLS AT OTHER THAN 1.0G AND/OR GREATER THAN 3/4 STICK DEFLECTION",
+          "CONTINUOUS AILERON ROLLS AT OTHER THAN 1.0 G AND/OR GREATER THAN 3/4 STICK DEFLECTION",
+          "CONTINUOUS AILERON ROLLS AT OTHER THAN 1.0G AND/OR GREATER THAN 3/4 STICK DEFLECTION."
+        ]
+      }
+    ];
+
+    function normalizeLine(line) {
+      if (!line) return '';
+      return line
+        .toUpperCase()
+        .replace(/[\u2010-\u2015\u2212\uFE58\uFE63\uFF0D]/g, '-')
+        .replace(/\s*-\s*/g, ' - ')
+        .replace(/60\s*%/g, '60%')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function normalizeManeuver(str) {
+      if (!str) return '';
+      return str
+        .toUpperCase()
+        .replace(/[\u2010-\u2015\u2212]/g, '-')
+        .replace(/\./g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function normalizeNumber(val) {
+      if (!val) return '';
+      return val
+        .toString()
+        .replace(/\+/g, '')
+        .replace(/kcas|kts|gs|psi|lbs|%|°|min|max|±/gi, '')
+        .trim();
+    }
+
+    // Auto-uppercase textarea text as you type
+    document.querySelectorAll('.proc-textarea').forEach(textarea => {
+      textarea.addEventListener('input', function() {
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value = this.value.toUpperCase();
+        this.setSelectionRange(start, end);
+      });
+    });
+
+    /* Flip Page Router */
+    function flipPage() {
+      const page1 = document.getElementById('page-1');
+      const page2 = document.getElementById('page-2');
+      const flipBtn = document.getElementById('flipPageBtn');
+      const banner = document.getElementById('scoreBanner');
+      banner.style.display = 'none';
+
+      if (currentPage === 1) {
+        page1.classList.remove('active-page');
+        page2.classList.add('active-page');
+        currentPage = 2;
+        flipBtn.innerHTML = '&larr; Flip Page (Section 1)';
+      } else {
+        page2.classList.remove('active-page');
+        page1.classList.add('active-page');
+        currentPage = 1;
+        flipBtn.innerHTML = 'Flip Page (Section 2 &rarr;)';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Check Router */
+    function checkCurrentPage() {
+      if (currentPage === 1) {
+        checkSection1();
+      } else {
+        checkSection2();
+      }
+    }
+
+    function checkSection1() {
+      let correctCount = 0;
+      const totalCount = masterKeySec1.length;
+
+      masterKeySec1.forEach(item => {
+        const textarea = document.getElementById(`input-${item.id}`);
+        const block = document.getElementById(`block-${item.id}`);
+        const badge = document.getElementById(`badge-${item.id}`);
+        const solPanel = document.getElementById(`sol-${item.id}`);
+
+        const userLines = textarea.value
+          .split('\n')
+          .map(line => normalizeLine(line))
+          .filter(line => line.length > 0);
+
+        let isCorrect = true;
+
+        if (userLines.length !== item.expectedLines.length) {
+          isCorrect = false;
+        } else {
+          for (let i = 0; i < item.expectedLines.length; i++) {
+            const acceptedVariants = item.expectedLines[i].map(v => normalizeLine(v));
+            if (!acceptedVariants.includes(userLines[i])) {
+              isCorrect = false;
+              break;
+            }
+          }
+        }
+
+        block.classList.remove('correct-box', 'incorrect-box');
+        if (isCorrect) {
+          block.classList.add('correct-box');
+          badge.textContent = 'Correct';
+          solPanel.style.display = 'none';
+          correctCount++;
+        } else {
+          block.classList.add('incorrect-box');
+          badge.textContent = 'Incorrect';
+          solPanel.style.display = 'block';
+        }
+      });
+
+      const banner = document.getElementById('scoreBanner');
+      banner.style.display = 'block';
+
+      if (correctCount === totalCount) {
+        banner.className = 'score-banner score-pass';
+        banner.textContent = `Section 1: ${correctCount} / ${totalCount} (100%) — All Boldface Correct`;
+      } else {
+        banner.className = 'score-banner score-fail';
+        banner.textContent = `Section 1: ${correctCount} / ${totalCount} (${Math.round((correctCount / totalCount) * 100)}%) — Boldface requires 100%`;
+      }
+
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function checkSection2() {
+      let correctInputs = 0;
+      const inputs = document.querySelectorAll('#page-2 .blank-input');
+      const totalInputs = inputs.length;
+
+      inputs.forEach(input => {
+        const expected = input.getAttribute('data-ans');
+        const userVal = input.value.trim();
+        
+        input.classList.remove('correct-input', 'incorrect-input');
+
+        const normUser = normalizeNumber(userVal);
+        const normExp = normalizeNumber(expected);
+
+        const isMatch = (normUser === normExp) || 
+                        (parseFloat(normUser) === parseFloat(normExp) && normUser !== '');
+
+        if (isMatch) {
+          input.classList.add('correct-input');
+          correctInputs++;
+        } else {
+          input.classList.add('incorrect-input');
+          input.title = `Correct: ${expected}`;
+        }
+      });
+
+      let correctManeuvers = 0;
+      maneuversKey.forEach(item => {
+        const textarea = document.getElementById(`maneuver-input-${item.id}`);
+        const block = document.getElementById(`maneuver-block-${item.id}`);
+        const badge = document.getElementById(`maneuver-badge-${item.id}`);
+        const solPanel = document.getElementById(`maneuver-sol-${item.id}`);
+
+        const normUser = normalizeManeuver(textarea.value);
+        const isCorrect = item.expected.some(exp => normalizeManeuver(exp) === normUser);
+
+        block.classList.remove('correct-box', 'incorrect-box');
+        if (isCorrect) {
+          block.classList.add('correct-box');
+          badge.textContent = 'Correct';
+          solPanel.style.display = 'none';
+          correctManeuvers++;
+        } else {
+          block.classList.add('incorrect-box');
+          badge.textContent = 'Incorrect';
+          solPanel.style.display = 'block';
+        }
+      });
+
+      const banner = document.getElementById('scoreBanner');
+      banner.style.display = 'block';
+
+      const totalItems = totalInputs + maneuversKey.length;
+      const totalCorrect = correctInputs + correctManeuvers;
+      const percentage = Math.round((totalCorrect / totalItems) * 100);
+
+      if (totalCorrect === totalItems) {
+        banner.className = 'score-banner score-pass';
+        banner.textContent = `Section 2: ${totalCorrect} / ${totalItems} (100%) — All Operating Limitations Correct`;
+      } else {
+        banner.className = 'score-banner score-fail';
+        banner.textContent = `Section 2: ${totalCorrect} / ${totalItems} (${percentage}%) — Blanks: ${correctInputs}/${totalInputs}, Maneuvers: ${correctManeuvers}/3`;
+      }
+
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function resetCurrentPage() {
+      if (currentPage === 1) {
+        masterKeySec1.forEach(item => {
+          document.getElementById(`input-${item.id}`).value = '';
+          const block = document.getElementById(`block-${item.id}`);
+          block.classList.remove('correct-box', 'incorrect-box');
+          document.getElementById(`badge-${item.id}`).style.display = 'none';
+          document.getElementById(`sol-${item.id}`).style.display = 'none';
+        });
+      } else {
+        document.querySelectorAll('#page-2 .blank-input').forEach(input => {
+          input.value = '';
+          input.classList.remove('correct-input', 'incorrect-input');
+        });
+        maneuversKey.forEach(item => {
+          document.getElementById(`maneuver-input-${item.id}`).value = '';
+          const block = document.getElementById(`maneuver-block-${item.id}`);
+          block.classList.remove('correct-box', 'incorrect-box');
+          document.getElementById(`maneuver-badge-${item.id}`).style.display = 'none';
+          document.getElementById(`maneuver-sol-${item.id}`).style.display = 'none';
+        });
+      }
+      document.getElementById('scoreBanner').style.display = 'none';
+    }
+
+    let sec1KeyVisible = false;
+    let sec2KeyVisible = false;
+
+    function toggleCurrentPageKey() {
+      if (currentPage === 1) {
+        sec1KeyVisible = !sec1KeyVisible;
+        masterKeySec1.forEach(item => {
+          document.getElementById(`sol-${item.id}`).style.display = sec1KeyVisible ? 'block' : 'none';
+        });
+      } else {
+        sec2KeyVisible = !sec2KeyVisible;
+        document.querySelectorAll('#page-2 .blank-input').forEach(input => {
+          if (sec2KeyVisible) {
+            input.placeholder = input.getAttribute('data-ans');
+          } else {
+            input.placeholder = '';
+          }
+        });
+        maneuversKey.forEach(item => {
+          document.getElementById(`maneuver-sol-${item.id}`).style.display = sec2KeyVisible ? 'block' : 'none';
+        });
+      }
+    }
+
+    // Default current date
+    document.getElementById('dateCompleted').value = new Date().toLocaleDateString('en-US');
+  </script>
+</body>
+</html>
