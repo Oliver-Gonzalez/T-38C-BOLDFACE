@@ -35,7 +35,7 @@
       display: block;
     }
 
-    /* ================= PAGE 1 STYLES ================= */
+    /* ================= HEADER STYLES ================= */
     .doc-header-title {
       border-bottom: 1.5px solid #000;
       text-align: center;
@@ -82,8 +82,22 @@
       font-weight: bold;
       padding: 5px 8px;
       background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
+    .drill-tag {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11px;
+      background: #7c3aed;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ================= SECTION 1 BOLDFACE BLOCKS ================= */
     .proc-block {
       border-bottom: 1.5px solid #000;
       padding: 8px 12px 10px;
@@ -135,7 +149,7 @@
     #block-6 .proc-textarea { min-height: 52px; }
     #block-7 .proc-textarea { min-height: 72px; }
 
-    /* ================= PAGE 2 1-TO-1 TABLES ================= */
+    /* ================= SECTION 2 1-TO-1 TABLES ================= */
     table.one-to-one-table {
       width: 100%;
       border-collapse: collapse;
@@ -178,11 +192,16 @@
       text-align: center;
       padding: 0 1px;
       color: #000;
-      transition: background-color 0.15s ease;
+      transition: background-color 0.15s ease, opacity 0.2s ease;
     }
 
     .blank-input:focus {
       border-bottom: 2px solid #1976d2;
+    }
+
+    .blank-input.locked-blank {
+      opacity: 0.35;
+      pointer-events: none;
     }
 
     .w-30 { width: 30px; }
@@ -209,7 +228,6 @@
       font-size: 11.5px;
     }
 
-    /* Caution Box Inside Table */
     .caution-inner-cell {
       text-align: justify !important;
       font-size: 10.5px !important;
@@ -246,6 +264,7 @@
     .prohibited-box-full {
       padding: 6px 8px;
       min-height: 60px;
+      border-bottom: 1px solid #000;
     }
 
     .prohibited-hdr {
@@ -268,7 +287,62 @@
       resize: vertical;
     }
 
-    /* Grading Colors */
+    /* ================= RANDOM QUESTIONS 10-ITEM LAYOUT (BOLD BLACK) ================= */
+    .random-q-item {
+      border-bottom: 1.5px solid #000;
+      padding: 11px 14px;
+      transition: background-color 0.2s ease;
+      position: relative;
+    }
+
+    .random-q-item:last-child {
+      border-bottom: none;
+    }
+
+    .random-q-header {
+      font-size: 13.5px;
+      margin-bottom: 7px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      line-height: 1.4;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .random-q-standard {
+      font-size: 13.5px;
+      font-weight: bold;
+      color: #000000;
+      margin-left: 3px;
+    }
+
+    .q-cat1, .q-cat2, .q-cat3 {
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .q-arrow {
+      color: #000000;
+      font-weight: bold;
+      margin: 0 5px;
+      display: inline-block;
+    }
+
+    .random-q-body {
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .random-q-body .blank-input {
+      font-size: 13.5px;
+      padding: 1px 4px;
+    }
+
+    /* ================= GRADING COLORS ================= */
     .correct-box {
       background-color: #e6f4ea !important;
     }
@@ -361,18 +435,20 @@
 
     .button-group {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
+    /* Minimalist Button with Hover Tooltip System */
     .btn {
+      position: relative;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.4px;
       text-transform: uppercase;
-      padding: 9px 20px;
+      padding: 9px 18px;
       border-radius: 4px;
       cursor: pointer;
       border: none;
@@ -389,31 +465,66 @@
       transform: translateY(1px);
     }
 
-    /* Green: Check Answers */
-    .btn-green {
-      background-color: #2e7d32;
+    /* Tooltip Bubble */
+    .btn::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background-color: #111827;
       color: #ffffff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.35;
+      letter-spacing: 0.2px;
+      text-transform: none;
+      white-space: normal;
+      width: 175px;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      pointer-events: none;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
     }
 
-    /* Red: Reset */
-    .btn-red {
-      background-color: #d32f2f;
-      color: #ffffff;
+    /* Tooltip Arrow */
+    .btn::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      border-width: 6px 6px 0 6px;
+      border-style: solid;
+      border-color: #111827 transparent transparent transparent;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      pointer-events: none;
+      z-index: 1000;
     }
 
-    /* Yellow: Key */
-    .btn-yellow {
-      background-color: #f59e0b;
-      color: #111827;
+    .btn:hover::after,
+    .btn:hover::before {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
     }
 
-    /* Blue: Flip Page */
-    .btn-blue {
-      background-color: #1976d2;
-      color: #ffffff;
-    }
+    .btn-green { background-color: #2e7d32; color: #ffffff; }
+    .btn-red { background-color: #d32f2f; color: #ffffff; }
+    .btn-purple { background-color: #7c3aed; color: #ffffff; }
+    .btn-yellow { background-color: #f59e0b; color: #111827; }
+    .btn-blue { background-color: #1976d2; color: #ffffff; }
+    .btn-orange { background-color: #ea580c; color: #ffffff; }
+    .btn-gray { background-color: #4b5563; color: #ffffff; }
 
-    /* Subtitle Under Buttons */
     .doc-subtitle {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 11px;
@@ -428,7 +539,7 @@
 </head>
 <body>
 
-  <!-- ================= PAGE 1: BOLDFACE ================= -->
+  <!-- ================= PAGE 1: BOLDFACE (FULL) ================= -->
   <div class="document-page active-page" id="page-1">
     
     <div class="doc-header-title">
@@ -548,7 +659,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
 
   </div>
 
-  <!-- ================= PAGE 2: OPERATING LIMITATIONS (1-TO-1) ================= -->
+  <!-- ================= PAGE 2: OPERATING LIMITATIONS (FULL) ================= -->
   <div class="document-page" id="page-2">
     <div class="section-title">
       Section 2. Operating Limitations
@@ -572,7 +683,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       </thead>
       <tbody>
         <tr class="sub-head"><td colspan="7">Ground Steady State</td></tr>
-        <!-- Start -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">Start</td>
           <td>*<input class="blank-input w-35" data-ans="925"> (Max) <input class="blank-input w-35" data-ans="845"></td>
@@ -582,7 +692,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td>****</td>
           <td class="shaded"></td>
         </tr>
-        <!-- Idle -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">Idle</td>
           <td class="shaded"></td>
@@ -592,7 +701,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td><input class="blank-input w-35" data-ans="5"> - <input class="blank-input w-35" data-ans="20"></td>
           <td class="shaded"></td>
         </tr>
-        <!-- Military -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">Military</td>
           <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
@@ -602,7 +710,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
           <td><input class="blank-input w-30" data-ans="5"></td>
         </tr>
-        <!-- (Max) / Afterburner -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
           <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
@@ -614,7 +721,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         </tr>
 
         <tr class="sub-head"><td colspan="7">Flight Steady State</td></tr>
-        <!-- Start -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">Start</td>
           <td>*<input class="blank-input w-40" data-ans="925"> (Max)</td>
@@ -624,7 +730,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td>****</td>
           <td class="shaded"></td>
         </tr>
-        <!-- Idle -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">Idle</td>
           <td class="shaded"></td>
@@ -634,7 +739,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td><input class="blank-input w-35" data-ans="5"> (Min)</td>
           <td class="shaded"></td>
         </tr>
-        <!-- Military -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">Military</td>
           <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
@@ -644,7 +748,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
           <td><input class="blank-input w-30" data-ans="30"></td>
         </tr>
-        <!-- (Max) / Afterburner -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
           <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
@@ -656,7 +759,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         </tr>
 
         <tr class="sub-head"><td colspan="7">Fluctuation Limits (Within Steady State Limits)</td></tr>
-        <!-- Idle (Ground) -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">Idle (Ground)</td>
           <td class="shaded"></td>
@@ -666,7 +768,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td>± <input class="blank-input w-30" data-ans="2"></td>
           <td class="shaded"></td>
         </tr>
-        <!-- MIL and AB (Ground) -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">MIL and AB<br>(Ground)</td>
           <td>**</td>
@@ -676,7 +777,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           <td>± <input class="blank-input w-30" data-ans="2"></td>
           <td class="shaded"></td>
         </tr>
-        <!-- MIL and AB (Flight) -->
         <tr>
           <td style="text-align: left; padding-left: 6px;">MIL and AB (Flight)</td>
           <td>**</td>
@@ -689,7 +789,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       </tbody>
     </table>
 
-    <!-- Engine Notes Block (Exact Match) -->
+    <!-- Engine Notes Block -->
     <div class="engine-notes-block">
       <p><strong>EGT:</strong> *Abort start if EGT reaches <input class="blank-input w-35" data-ans="845">°C to preclude exceeding temperature limits. Abort aircraft during ground start if EGT exceeds <input class="blank-input w-35" data-ans="925">°C momentarily. ** Total fluctuations in EGT of <input class="blank-input w-30" data-ans="15">°C (± <input class="blank-input w-35" data-ans="7.5"> °C) are acceptable if the average EGT is between <input class="blank-input w-35" data-ans="630">°C and <input class="blank-input w-35" data-ans="650"> °C.</p>
       <p><strong>RPM:</strong> Maximum allowable transient RPM <input class="blank-input w-35" data-ans="107"> %.</p>
@@ -698,7 +798,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       <p><strong>Oil Pressure:</strong> ****Do not advance throttle above idle without a positive (&gt;0) indication of oil pressure. During cold weather, oil pressure may exceed limitations. This is normal indication as long as the oil pressure continues to decrease as engine oil warms. Do not exceed <input class="blank-input w-30" data-ans="5"> minutes in military power with oil pressure above <input class="blank-input w-30" data-ans="55"> PSI. If a sudden change of <input class="blank-input w-30" data-ans="10"> PSI or greater in oil pressure indication occurs at any stabilized RPM, follow engine oil system malfunction procedures in Section III of the DASH 1.</p>
     </div>
 
-    <!-- Combined Airspeed & Load Factor 1-to-1 Grid Table -->
+    <!-- Combined Airspeed & Load Factor Grid -->
     <table class="one-to-one-table">
       <thead>
         <tr>
@@ -760,7 +860,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       </tbody>
     </table>
 
-    <!-- Hydraulic & Oxygen Pressure 1-to-1 Table -->
+    <!-- Hydraulic & Oxygen Pressure Table -->
     <table class="one-to-one-table">
       <thead>
         <tr>
@@ -803,7 +903,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       </tbody>
     </table>
 
-    <!-- DASH -1 Prohibited Maneuvers (Exact 1-to-1 Box Format) -->
+    <!-- DASH -1 Prohibited Maneuvers -->
     <div class="prohibited-title">
       DASH -1 Prohibited Maneuvers
     </div>
@@ -842,30 +942,96 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
 
   </div>
 
-  <!-- ================= MINIMALIST COLOR-CODED CONTROLS ================= -->
+  <!-- ================= PAGE RANDOM: DYNAMIC PRACTICE TEST ================= -->
+  <div class="document-page" id="page-random">
+    <div class="doc-header-title">
+      T-38C Boldface Emergency Procedures and Operating Limitations (Nov 16)
+    </div>
+    <div class="meta-row">
+      <div class="meta-cell">
+        <label>Name</label>
+        <input type="text" id="random-name" autocomplete="off">
+      </div>
+      <div class="meta-cell">
+        <label>Checked By</label>
+        <input type="text" id="random-checkedBy" autocomplete="off">
+      </div>
+      <div class="meta-cell">
+        <label>Date Completed</label>
+        <input type="text" id="random-dateCompleted" autocomplete="off">
+      </div>
+    </div>
+    <div class="section-title">
+      <span id="random-drill-title">Randomized Practice Drill</span>
+      <span class="drill-tag">RANDOMIZED</span>
+    </div>
+
+    <!-- Injected Questions Container -->
+    <div id="random-content-container"></div>
+  </div>
+
+  <!-- ================= MINIMALIST CONTROLS PANEL ================= -->
   <div class="controls-panel">
     <div id="scoreBanner" class="score-banner"></div>
-    <div class="button-group">
-      <!-- Green: Check Answers -->
-      <button class="btn btn-green" onclick="checkCurrentPage()">Check Answers</button>
-      <!-- Red: Reset -->
-      <button class="btn btn-red" onclick="resetCurrentPage()">Reset</button>
-      <!-- Yellow: Key -->
-      <button class="btn btn-yellow" onclick="toggleCurrentPageKey()">Key</button>
-      <!-- Blue: Flip Page -->
-      <button class="btn btn-blue" id="flipPageBtn" onclick="flipPage()">Flip Page (Section 2 &rarr;)</button>
+    
+    <!-- Standard Navigation Button Group (Exact Requested Order) -->
+    <div class="button-group" id="main-button-group">
+      <!-- 1. CHECK ANSWERS -->
+      <button class="btn btn-green" data-tooltip="Evaluate your answers against Dash-1 standards." onclick="checkCurrentPage()">Check Answers</button>
+      
+      <!-- Conditional Missed Buttons -->
+      <button class="btn btn-orange" id="drillMissedBtn" data-tooltip="Isolate and re-drill only the questions you missed." onclick="drillMissedOnly()" style="display: none;">Drill Missed Only</button>
+      <button class="btn btn-gray" id="showAllBtn" data-tooltip="Restore all questions to view the full sheet." onclick="restoreAllQuestions()" style="display: none;">Show All</button>
+      
+      <!-- 2. RESET -->
+      <button class="btn btn-red" data-tooltip="Clear all inputs and reset highlights on this page." onclick="resetCurrentPage()">Reset</button>
+      
+      <!-- 3. RANDOMIZE -->
+      <button class="btn btn-purple" data-tooltip="Generate a randomized practice drill from this section." onclick="startRandomDrill()">Randomize</button>
+      
+      <!-- 4. KEY -->
+      <button class="btn btn-yellow" data-tooltip="Toggle official answers and verbatim key." onclick="toggleCurrentPageKey()">Key</button>
+      
+      <!-- 5. BLUE BUTTON -->
+      <button class="btn btn-blue" id="flipPageBtn" data-tooltip="Flip between Section 1 (Boldface) and Section 2 (Operating Limitations)." onclick="flipPage()">Flip Page (Section 2 &rarr;)</button>
     </div>
-    <!-- Subtitle under buttons -->
+
+    <!-- Random Mode Button Group (Exact Requested Order) -->
+    <div class="button-group" id="random-button-group" style="display: none;">
+      <!-- 1. CHECK ANSWERS -->
+      <button class="btn btn-green" data-tooltip="Evaluate your answers against Dash-1 standards." onclick="checkRandomDrill()">Check Answers</button>
+      
+      <!-- Conditional Missed Buttons -->
+      <button class="btn btn-orange" id="rndDrillMissedBtn" data-tooltip="Isolate and re-drill only the questions you missed." onclick="drillMissedOnlyRandom()" style="display: none;">Drill Missed Only</button>
+      <button class="btn btn-gray" id="rndShowAllBtn" data-tooltip="Restore all questions in this drill." onclick="restoreAllRandomQuestions()" style="display: none;">Show All</button>
+      
+      <!-- 2. RESET -->
+      <button class="btn btn-red" data-tooltip="Clear all inputs and reset highlights on this drill." onclick="resetRandomDrill()">Reset</button>
+      
+      <!-- 3. RANDOMIZE (NEW RANDOM) -->
+      <button class="btn btn-purple" data-tooltip="Generate a new set of random questions." onclick="startRandomDrill()">New Random</button>
+      
+      <!-- 4. KEY -->
+      <button class="btn btn-yellow" data-tooltip="Toggle official answers for these questions." onclick="toggleRandomKey()">Key</button>
+      
+      <!-- 5. BLUE BUTTON -->
+      <button class="btn btn-blue" data-tooltip="Exit randomized mode and return to the complete form." onclick="exitRandomDrill()">&larr; Return to Full Form</button>
+    </div>
+
     <div class="doc-subtitle">CAO NOV 16 2025</div>
   </div>
 
   <script>
     let currentPage = 1;
+    let inRandomMode = false;
+    let activeRandomModeSection = 1;
 
-    /* Master Key for Section 1 Boldface */
+    /* Master Data for Section 1 */
     const masterKeySec1 = [
       {
         id: 1,
+        title: "Abort",
+        solution: "THROTTLES - IDLE\nWHEEL BRAKES - AS REQUIRED",
         expectedLines: [
           ["THROTTLES - IDLE"],
           ["WHEEL BRAKES - AS REQUIRED"]
@@ -873,6 +1039,8 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       },
       {
         id: 2,
+        title: "Engine Failure / Fire Warning During Takeoff, Takeoff Continued",
+        solution: "THROTTLES - MAX\nFLAPS - 60%\nAIRSPEED - ATTAIN SETOS MINIMUM",
         expectedLines: [
           ["THROTTLES - MAX"],
           ["FLAPS - 60%"],
@@ -881,12 +1049,16 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       },
       {
         id: 3,
+        title: "Tire Failure During Takeoff, Takeoff Continued",
+        solution: "GEAR - DO NOT RETRACT",
         expectedLines: [
           ["GEAR - DO NOT RETRACT"]
         ]
       },
       {
         id: 4,
+        title: "Fire Warning During Flight (Affected Engine)",
+        solution: "THROTTLE - IDLE\nTHROTTLE - OFF, IF FIRE LIGHT REMAINS ON\nIF FIRE IS CONFIRMED - EJECT",
         expectedLines: [
           ["THROTTLE - IDLE"],
           ["THROTTLE - OFF, IF FIRE LIGHT REMAINS ON", "THROTTLE - OFF IF FIRE LIGHT REMAINS ON"],
@@ -895,12 +1067,16 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       },
       {
         id: 5,
+        title: "Ejection",
+        solution: "EJECTION HANDLE - PULL",
         expectedLines: [
           ["EJECTION HANDLE - PULL"]
         ]
       },
       {
         id: 6,
+        title: "Alternate Airstart / Loss of Thrust (Low Altitude)",
+        solution: "THROTTLE(S) - MAX\nSPEED BRAKE - CONFIRM CLOSED",
         expectedLines: [
           ["THROTTLE(S) - MAX", "THROTTLES - MAX", "THROTTLE - MAX"],
           ["SPEED BRAKE - CONFIRM CLOSED"]
@@ -908,6 +1084,8 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       },
       {
         id: 7,
+        title: "Single-Engine Go-Around",
+        solution: "THROTTLE(S) - MAX\nFLAPS - 60%\nAIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM",
         expectedLines: [
           ["THROTTLE(S) - MAX", "THROTTLES - MAX", "THROTTLE - MAX"],
           ["FLAPS - 60%"],
@@ -916,26 +1094,196 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       }
     ];
 
-    /* Section 2 Prohibited Maneuvers Key */
+    /* Section 2 Prohibited Maneuvers Key (Exact Casing) */
     const maneuversKey = [
       {
         id: 1,
-        expected: ["VERTICAL STALLS"]
+        expected: ["Vertical Stalls"]
       },
       {
         id: 2,
-        expected: ["INTENTIONAL SPINS"]
+        expected: ["Intentional Spins"]
       },
       {
         id: 3,
         expected: [
-          "CONTINUOUS AILERON ROLLS AT OTHER THAN 1.0G AND/OR GREATER THAN 3/4 STICK DEFLECTION",
-          "CONTINUOUS AILERON ROLLS AT OTHER THAN 1.0 G AND/OR GREATER THAN 3/4 STICK DEFLECTION",
-          "CONTINUOUS AILERON ROLLS AT OTHER THAN 1.0G AND/OR GREATER THAN 3/4 STICK DEFLECTION."
+          "Continuous aileron rolls at other than 1.0g and/or greater than 3/4 stick deflection.",
+          "Continuous aileron rolls at other than 1.0g and/or greater than 3/4 stick deflection",
+          "Continuous aileron rolls at other than 1.0 g and/or greater than 3/4 stick deflection.",
+          "Continuous aileron rolls at other than 1.0 g and/or greater than 3/4 stick deflection"
         ]
       }
     ];
 
+    /* ================= STANDARDIZED SECTION 2 QUESTION POOL =================
+       Format: [Category 1] Category 2 -> Category 3 (All Bold Black)
+    ======================================================================== */
+    const sec2QuestionPool = [
+      // Hydraulic Pressure
+      { category: "Hydraulic Pressure", condition: "System Limits", parameter: "Min PSI", type: "single", unit: "PSI", ans: ["1500"] },
+      { category: "Hydraulic Pressure", condition: "System Limits", parameter: "Max PSI", type: "single", unit: "PSI", ans: ["3200"] },
+      { category: "Hydraulic Pressure", condition: "System Limits", parameter: "Normal Range", type: "range", unit: "PSI", ans: ["2850", "3200"] },
+      
+      // Oxygen Pressure
+      { category: "Oxygen Pressure", condition: "System Limits", parameter: "Normal Range", type: "range", unit: "PSI", ans: ["50", "120"] },
+
+      // Airspeed Limits
+      { category: "Airspeed", condition: "Flaps", parameter: "1% - 45%", type: "single", unit: "KCAS", ans: ["300"] },
+      { category: "Airspeed", condition: "Flaps", parameter: "46% - 60%", type: "single", unit: "KCAS", ans: ["240"] },
+      { category: "Airspeed", condition: "Flaps", parameter: "Over 60%", type: "single", unit: "KCAS", ans: ["220"] },
+      { category: "Airspeed", condition: "Canopy", parameter: "Canopy", type: "single", unit: "KCAS", ans: ["50"] },
+      { category: "Airspeed", condition: "Gear", parameter: "Gear / Gear Doors", type: "single", unit: "KCAS", ans: ["240"] },
+      { category: "Airspeed", condition: "Steering", parameter: "Nose Wheel Steering", type: "single", unit: "Kts GS", ans: ["65"] },
+      { category: "Airspeed", condition: "Tires", parameter: "Main Wheel Tire", type: "single", unit: "Kts GS", ans: ["221"] },
+      { category: "Airspeed", condition: "Tires", parameter: "Nose Wheel Tire", type: "single", unit: "Kts GS", ans: ["174"] },
+
+      // Ground Steady State Engine
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Start EGT (Max)", type: "single", unit: "°C", ans: ["925"], prefix: "*" },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Start EGT (Abort to Preclude Limit)", type: "single", unit: "°C", ans: ["845"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Start Fuel Flow (Max)", type: "single", unit: "LB / HR", ans: ["360"], prefix: "***" },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Idle RPM", type: "range", unit: "%", ans: ["46", "50"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Idle Nozzle Position", type: "range", unit: "%", ans: ["77", "92"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Idle Fuel Flow (Std Day)", type: "range", unit: "LB / HR", ans: ["400", "600"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Idle Oil Pressure", type: "range", unit: "PSI", ans: ["5", "20"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Military EGT", type: "range", unit: "°C", ans: ["630", "650"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Military RPM", type: "range", unit: "%", ans: ["99", "101"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Military Nozzle Position", type: "range", unit: "%", ans: ["0", "20"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Military Fuel Flow (Sea Level)", type: "range", unit: "LB / HR", ans: ["2100", "2700"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Military Oil Pressure", type: "range", unit: "PSI", ans: ["20", "55"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "Military Time Duration", type: "single", unit: "Minutes", ans: ["5"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "(Max) / Afterburner EGT", type: "range", unit: "°C", ans: ["630", "650"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "(Max) / Afterburner RPM", type: "range", unit: "%", ans: ["99", "101"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "(Max) / Afterburner Nozzle Position", type: "range", unit: "%", ans: ["50", "85"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "(Max) / Afterburner Oil Pressure", type: "range", unit: "PSI", ans: ["20", "55"] },
+      { category: "Engine Limitations", condition: "Ground Steady State", parameter: "(Max) / Afterburner Time Duration", type: "single", unit: "Minutes", ans: ["5"] },
+
+      // Flight Steady State Engine
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Start EGT (Max)", type: "single", unit: "°C", ans: ["925"], prefix: "*" },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Start Fuel Flow (Max)", type: "single", unit: "LB / HR", ans: ["360"], prefix: "***" },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Idle Fuel Flow (Min) (Std Day)", type: "single", unit: "LB / HR", ans: ["200"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Idle Oil Pressure (Min)", type: "single", unit: "PSI", ans: ["5"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Military EGT", type: "range", unit: "°C", ans: ["630", "650"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Military RPM", type: "range", unit: "%", ans: ["99", "104"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Military Nozzle Position", type: "range", unit: "%", ans: ["0", "20"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Military Oil Pressure", type: "range", unit: "PSI", ans: ["20", "55"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "Military Time Duration", type: "single", unit: "Minutes", ans: ["30"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "(Max) / Afterburner EGT", type: "range", unit: "°C", ans: ["630", "650"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "(Max) / Afterburner RPM", type: "range", unit: "%", ans: ["99", "104"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "(Max) / Afterburner Nozzle Position", type: "range", unit: "%", ans: ["50", "85"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "(Max) / Afterburner Oil Pressure", type: "range", unit: "PSI", ans: ["20", "55"] },
+      { category: "Engine Limitations", condition: "Flight Steady State", parameter: "(Max) / Afterburner Time Duration", type: "single", unit: "Minutes", ans: ["15"] },
+
+      // Fluctuation Limits
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "Idle (Ground) RPM", type: "range", unit: "%", ans: ["46", "50"] },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "Idle (Ground) Fuel Flow", type: "single", unit: "LB / HR", ans: ["25"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "Idle (Ground) Oil Pressure", type: "single", unit: "PSI", ans: ["2"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Ground) RPM", type: "range", unit: "%", ans: ["99", "101"] },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Ground) Nozzle Position", type: "single", unit: "%", ans: ["3"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Ground) Fuel Flow", type: "single", unit: "LB / HR", ans: ["50"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Ground) Oil Pressure", type: "single", unit: "PSI", ans: ["2"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Flight) RPM", type: "single", unit: "%", ans: ["1"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Flight) Nozzle Position", type: "single", unit: "%", ans: ["3"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Flight) Fuel Flow", type: "single", unit: "LB / HR", ans: ["50"], prefix: "± " },
+      { category: "Engine Limitations", condition: "Fluctuation Limits", parameter: "MIL and AB (Flight) Oil Pressure", type: "single", unit: "PSI", ans: ["2"], prefix: "± " },
+
+      // Engine Notes
+      { category: "Engine Notes", condition: "EGT", parameter: "*Abort start if EGT reaches", type: "single", unit: "°C", ans: ["845"] },
+      { category: "Engine Notes", condition: "EGT", parameter: "Abort aircraft during ground start if EGT momentarily exceeds", type: "single", unit: "°C", ans: ["925"] },
+      { category: "Engine Notes", condition: "EGT", parameter: "** Total acceptable fluctuations in EGT (average 630-650°C)", type: "single", unit: "°C", ans: ["15"] },
+      { category: "Engine Notes", condition: "EGT", parameter: "** Acceptable fluctuation tolerance", type: "single", unit: "°C", ans: ["7.5"], prefix: "± " },
+      { category: "Engine Notes", condition: "RPM", parameter: "Maximum allowable transient RPM", type: "single", unit: "%", ans: ["107"] },
+      { category: "Engine Notes", condition: "Nozzle Position", parameter: "Stabilization time following rapid throttle movements", type: "single", unit: "seconds", ans: ["10"] },
+      { category: "Engine Notes", condition: "Fuel Flow", parameter: "*** Return limit prior to EGT rise during engine start", type: "single", unit: "LB / HR", ans: ["360"] },
+      { category: "Engine Notes", condition: "Oil Pressure", parameter: "**** Max time in military power with oil pressure above 55 PSI", type: "single", unit: "minutes", ans: ["5"] },
+      { category: "Engine Notes", condition: "Oil Pressure", parameter: "**** Sudden change in oil pressure indication requiring DASH 1 procedures", type: "single", unit: "PSI", ans: ["10"] },
+
+      // Load Factor & Caution
+      { category: "Load Factor", condition: "3500 LBS", parameter: "Max Sym G", type: "range", unit: "G", ans: ["-2.3", "+5.7"] },
+      { category: "Load Factor", condition: "3500 LBS", parameter: "Max Asym G", type: "range", unit: "G", ans: ["0", "+4.1"] },
+      { category: "Load Factor", condition: "3000 LBS", parameter: "Max Sym G", type: "range", unit: "G", ans: ["-2.4", "+5.9"] },
+      { category: "Load Factor", condition: "3000 LBS", parameter: "Max Asym G", type: "range", unit: "G", ans: ["0", "+4.3"] },
+      { category: "Load Factor", condition: "2000 LBS", parameter: "Max Sym G", type: "range", unit: "G", ans: ["-2.6", "+6.5"] },
+      { category: "Load Factor", condition: "2000 LBS", parameter: "Max Asym G", type: "range", unit: "G", ans: ["0", "+4.7"] },
+      { category: "Load Factor", condition: "1000 LBS", parameter: "Max Sym G", type: "range", unit: "G", ans: ["-2.9", "+7.2"] },
+      { category: "Load Factor", condition: "1000 LBS", parameter: "Max Asym G", type: "range", unit: "G", ans: ["0", "+5.0"] },
+      { category: "Load Factor", condition: "Landing Gear Caution", parameter: "Max bank angle for extension / retraction", type: "single", unit: "°", ans: ["45"] },
+      { category: "Load Factor", condition: "Landing Gear Caution", parameter: "Max load factor (G) for extension / retraction", type: "single", unit: "G", ans: ["1.5"] },
+
+      // WSSP & Airspeed Limits
+      { category: "WSSP Limitations", condition: "G Limits", parameter: "Sym G limit", type: "range", unit: "G", ans: ["0", "+4.0"] },
+      { category: "WSSP Limitations", condition: "G Limits", parameter: "Asym G limit", type: "range", unit: "G", ans: ["0", "+3.0"] },
+      { category: "WSSP Limitations", condition: "Capacity", parameter: "Normal Capacity", type: "single", unit: "LBS", ans: ["140"] },
+      { category: "Airspeed Limits", condition: "WSSP Configuration", parameter: "Max Airspeed", type: "single", unit: "KCAS", ans: ["400"] },
+      { category: "Airspeed Limits", condition: "WSSP Configuration", parameter: "SB Open / Turbulence", type: "single", unit: "KCAS", ans: ["350"] },
+      { category: "Airspeed Limits", condition: "WSSP Configuration", parameter: "Abrupt Control", type: "single", unit: "KCAS", ans: ["240"] },
+
+      // Prohibited Maneuvers: No parameter given (does NOT reveal the answer)
+      {
+        category: "DASH -1 Prohibited Maneuvers",
+        condition: "Maneuver 1",
+        parameter: "",
+        type: "text",
+        ans: ["Vertical Stalls"],
+        expectedVariants: ["Vertical Stalls"]
+      },
+      {
+        category: "DASH -1 Prohibited Maneuvers",
+        condition: "Maneuver 2",
+        parameter: "",
+        type: "text",
+        ans: ["Intentional Spins"],
+        expectedVariants: ["Intentional Spins"]
+      },
+      {
+        category: "DASH -1 Prohibited Maneuvers",
+        condition: "Maneuver 3",
+        parameter: "",
+        type: "text",
+        ans: ["Continuous aileron rolls at other than 1.0g and/or greater than 3/4 stick deflection."],
+        expectedVariants: [
+          "Continuous aileron rolls at other than 1.0g and/or greater than 3/4 stick deflection.",
+          "Continuous aileron rolls at other than 1.0g and/or greater than 3/4 stick deflection",
+          "Continuous aileron rolls at other than 1.0 g and/or greater than 3/4 stick deflection.",
+          "Continuous aileron rolls at other than 1.0 g and/or greater than 3/4 stick deflection"
+        ]
+      }
+    ];
+
+    /* ================= NUMPAD AUTO-TAB ENGINE (FEATURE 5) ================= */
+    function setupNumpadAutoTab(containerSelector) {
+      const inputs = Array.from(document.querySelectorAll(`${containerSelector} .blank-input`));
+      inputs.forEach((input, index) => {
+        // Auto-advance upon reaching expected answer length
+        input.addEventListener('input', function() {
+          const ansAttr = this.getAttribute('data-ans') || '';
+          const targetLen = ansAttr.length;
+          if (targetLen > 0 && this.value.length >= targetLen) {
+            if (index + 1 < inputs.length) {
+              inputs[index + 1].focus();
+              inputs[index + 1].select();
+            }
+          }
+        });
+
+        // Keypad Navigation: Enter key advances; Backspace in empty goes back
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            if (index + 1 < inputs.length) {
+              inputs[index + 1].focus();
+              inputs[index + 1].select();
+            }
+          } else if (e.key === 'Backspace' && this.value === '' && index > 0) {
+            inputs[index - 1].focus();
+          }
+        });
+      });
+    }
+
+    // Initialize Auto-Tab on Section 2 full table
+    setupNumpadAutoTab('#page-2');
+
+    /* Normalization Utilities */
     function normalizeLine(line) {
       if (!line) return '';
       return line
@@ -947,12 +1295,10 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         .trim();
     }
 
-    function normalizeManeuver(str) {
+    function normalizeManeuverExact(str) {
       if (!str) return '';
       return str
-        .toUpperCase()
         .replace(/[\u2010-\u2015\u2212]/g, '-')
-        .replace(/\./g, '')
         .replace(/\s+/g, ' ')
         .trim();
     }
@@ -966,23 +1312,29 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         .trim();
     }
 
-    // Auto-uppercase textarea text as you type
-    document.querySelectorAll('.proc-textarea').forEach(textarea => {
-      textarea.addEventListener('input', function() {
-        const start = this.selectionStart;
-        const end = this.selectionEnd;
-        this.value = this.value.toUpperCase();
-        this.setSelectionRange(start, end);
+    function attachAutoUppercase(selector) {
+      document.querySelectorAll(selector).forEach(textarea => {
+        textarea.addEventListener('input', function() {
+          const start = this.selectionStart;
+          const end = this.selectionEnd;
+          this.value = this.value.toUpperCase();
+          this.setSelectionRange(start, end);
+        });
       });
-    });
+    }
 
-    /* Flip Page Router */
+    attachAutoUppercase('.proc-textarea');
+
+    /* Page Navigation */
     function flipPage() {
       const page1 = document.getElementById('page-1');
       const page2 = document.getElementById('page-2');
       const flipBtn = document.getElementById('flipPageBtn');
       const banner = document.getElementById('scoreBanner');
       banner.style.display = 'none';
+
+      document.getElementById('drillMissedBtn').style.display = 'none';
+      document.getElementById('showAllBtn').style.display = 'none';
 
       if (currentPage === 1) {
         page1.classList.remove('active-page');
@@ -998,7 +1350,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* Check Router */
+    /* Check Handler for Full Forms */
     function checkCurrentPage() {
       if (currentPage === 1) {
         checkSection1();
@@ -1010,6 +1362,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
     function checkSection1() {
       let correctCount = 0;
       const totalCount = masterKeySec1.length;
+      let hasIncorrect = false;
 
       masterKeySec1.forEach(item => {
         const textarea = document.getElementById(`input-${item.id}`);
@@ -1023,7 +1376,6 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           .filter(line => line.length > 0);
 
         let isCorrect = true;
-
         if (userLines.length !== item.expectedLines.length) {
           isCorrect = false;
         } else {
@@ -1046,20 +1398,23 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           block.classList.add('incorrect-box');
           badge.textContent = 'Incorrect';
           solPanel.style.display = 'block';
+          hasIncorrect = true;
         }
       });
 
       const banner = document.getElementById('scoreBanner');
       banner.style.display = 'block';
 
+      const drillMissedBtn = document.getElementById('drillMissedBtn');
       if (correctCount === totalCount) {
         banner.className = 'score-banner score-pass';
         banner.textContent = `Section 1: ${correctCount} / ${totalCount} (100%) — All Boldface Correct`;
+        drillMissedBtn.style.display = 'none';
       } else {
         banner.className = 'score-banner score-fail';
         banner.textContent = `Section 1: ${correctCount} / ${totalCount} (${Math.round((correctCount / totalCount) * 100)}%) — Boldface requires 100%`;
+        if (hasIncorrect) drillMissedBtn.style.display = 'inline-block';
       }
-
       banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
@@ -1067,11 +1422,11 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       let correctInputs = 0;
       const inputs = document.querySelectorAll('#page-2 .blank-input');
       const totalInputs = inputs.length;
+      let hasIncorrect = false;
 
       inputs.forEach(input => {
         const expected = input.getAttribute('data-ans');
         const userVal = input.value.trim();
-        
         input.classList.remove('correct-input', 'incorrect-input');
 
         const normUser = normalizeNumber(userVal);
@@ -1086,6 +1441,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         } else {
           input.classList.add('incorrect-input');
           input.title = `Correct: ${expected}`;
+          hasIncorrect = true;
         }
       });
 
@@ -1096,8 +1452,8 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         const badge = document.getElementById(`maneuver-badge-${item.id}`);
         const solPanel = document.getElementById(`maneuver-sol-${item.id}`);
 
-        const normUser = normalizeManeuver(textarea.value);
-        const isCorrect = item.expected.some(exp => normalizeManeuver(exp) === normUser);
+        const normUser = normalizeManeuverExact(textarea.value);
+        const isCorrect = item.expected.some(exp => normalizeManeuverExact(exp) === normUser);
 
         block.classList.remove('correct-box', 'incorrect-box');
         if (isCorrect) {
@@ -1109,6 +1465,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
           block.classList.add('incorrect-box');
           badge.textContent = 'Incorrect';
           solPanel.style.display = 'block';
+          hasIncorrect = true;
         }
       });
 
@@ -1119,40 +1476,234 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       const totalCorrect = correctInputs + correctManeuvers;
       const percentage = Math.round((totalCorrect / totalItems) * 100);
 
+      const drillMissedBtn = document.getElementById('drillMissedBtn');
       if (totalCorrect === totalItems) {
         banner.className = 'score-banner score-pass';
         banner.textContent = `Section 2: ${totalCorrect} / ${totalItems} (100%) — All Operating Limitations Correct`;
+        drillMissedBtn.style.display = 'none';
       } else {
         banner.className = 'score-banner score-fail';
         banner.textContent = `Section 2: ${totalCorrect} / ${totalItems} (${percentage}%) — Blanks: ${correctInputs}/${totalInputs}, Maneuvers: ${correctManeuvers}/3`;
+        if (hasIncorrect) drillMissedBtn.style.display = 'inline-block';
       }
-
       banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* ================= DRILL MISSED ONLY ENGINE (FEATURE 3) ================= */
+    function drillMissedOnly() {
+      if (currentPage === 1) {
+        let firstMissed = null;
+        let countMissed = 0;
+
+        masterKeySec1.forEach(item => {
+          const block = document.getElementById(`block-${item.id}`);
+          const textarea = document.getElementById(`input-${item.id}`);
+          const badge = document.getElementById(`badge-${item.id}`);
+          const solPanel = document.getElementById(`sol-${item.id}`);
+
+          if (block.classList.contains('correct-box')) {
+            block.style.display = 'none';
+          } else {
+            block.style.display = 'block';
+            block.classList.remove('incorrect-box');
+            badge.style.display = 'none';
+            solPanel.style.display = 'none';
+            textarea.value = '';
+            countMissed++;
+            if (!firstMissed) firstMissed = textarea;
+          }
+        });
+
+        document.getElementById('drillMissedBtn').style.display = 'none';
+        document.getElementById('showAllBtn').style.display = 'inline-block';
+        document.getElementById('scoreBanner').className = 'score-banner score-fail';
+        document.getElementById('scoreBanner').textContent = `Drilling Missed Boldface (${countMissed} remaining)...`;
+
+        if (firstMissed) firstMissed.focus();
+      } else {
+        let firstMissed = null;
+        let countMissed = 0;
+
+        document.querySelectorAll('#page-2 .blank-input').forEach(input => {
+          if (input.classList.contains('correct-input')) {
+            input.classList.add('locked-blank');
+            input.tabIndex = -1;
+          } else {
+            input.classList.remove('incorrect-input');
+            input.value = '';
+            countMissed++;
+            if (!firstMissed) firstMissed = input;
+          }
+        });
+
+        maneuversKey.forEach(item => {
+          const block = document.getElementById(`maneuver-block-${item.id}`);
+          const textarea = document.getElementById(`maneuver-input-${item.id}`);
+          const badge = document.getElementById(`maneuver-badge-${item.id}`);
+          const solPanel = document.getElementById(`maneuver-sol-${item.id}`);
+
+          if (block.classList.contains('correct-box')) {
+            textarea.disabled = true;
+          } else {
+            block.classList.remove('incorrect-box');
+            badge.style.display = 'none';
+            solPanel.style.display = 'none';
+            textarea.value = '';
+            countMissed++;
+            if (!firstMissed) firstMissed = textarea;
+          }
+        });
+
+        document.getElementById('drillMissedBtn').style.display = 'none';
+        document.getElementById('showAllBtn').style.display = 'inline-block';
+        document.getElementById('scoreBanner').className = 'score-banner score-fail';
+        document.getElementById('scoreBanner').textContent = `Drilling Missed Limitations (${countMissed} items remaining)...`;
+
+        if (firstMissed) firstMissed.focus();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restoreAllQuestions() {
+      if (currentPage === 1) {
+        masterKeySec1.forEach(item => {
+          document.getElementById(`block-${item.id}`).style.display = 'block';
+        });
+      } else {
+        document.querySelectorAll('#page-2 .blank-input').forEach(input => {
+          input.classList.remove('locked-blank');
+          input.tabIndex = 0;
+        });
+        maneuversKey.forEach(item => {
+          document.getElementById(`maneuver-input-${item.id}`).disabled = false;
+        });
+      }
+      document.getElementById('showAllBtn').style.display = 'none';
+      document.getElementById('scoreBanner').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function drillMissedOnlyRandom() {
+      if (activeRandomModeSection === 1) {
+        let firstMissed = null;
+        let countMissed = 0;
+
+        currentRandomSec1Items.forEach(item => {
+          const block = document.getElementById(`random-block-${item.id}`);
+          const textarea = document.getElementById(`random-input-${item.id}`);
+          const badge = document.getElementById(`random-badge-${item.id}`);
+          const solPanel = document.getElementById(`random-sol-${item.id}`);
+
+          if (block.classList.contains('correct-box')) {
+            block.style.display = 'none';
+          } else {
+            block.style.display = 'block';
+            block.classList.remove('incorrect-box');
+            badge.style.display = 'none';
+            solPanel.style.display = 'none';
+            textarea.value = '';
+            countMissed++;
+            if (!firstMissed) firstMissed = textarea;
+          }
+        });
+
+        document.getElementById('rndDrillMissedBtn').style.display = 'none';
+        document.getElementById('rndShowAllBtn').style.display = 'inline-block';
+        document.getElementById('scoreBanner').className = 'score-banner score-fail';
+        document.getElementById('scoreBanner').textContent = `Drilling Missed Random Questions (${countMissed} remaining)...`;
+
+        if (firstMissed) firstMissed.focus();
+      } else {
+        let firstMissed = null;
+        let countMissed = 0;
+
+        currentRandomSec2Items.forEach((q, idx) => {
+          const block = document.getElementById(`rnd2-block-${idx}`);
+          const badge = document.getElementById(`rnd2-badge-${idx}`);
+          const solPanel = document.getElementById(`rnd2-sol-${idx}`);
+
+          if (block.classList.contains('correct-box')) {
+            block.style.display = 'none';
+          } else {
+            block.style.display = 'block';
+            block.classList.remove('incorrect-box');
+            badge.style.display = 'none';
+            solPanel.style.display = 'none';
+            countMissed++;
+
+            if (q.type === 'single') {
+              const inp = document.getElementById(`rnd2-input-${idx}-0`);
+              inp.value = '';
+              inp.classList.remove('incorrect-input');
+              if (!firstMissed) firstMissed = inp;
+            } else if (q.type === 'range') {
+              const inp0 = document.getElementById(`rnd2-input-${idx}-0`);
+              const inp1 = document.getElementById(`rnd2-input-${idx}-1`);
+              inp0.value = ''; inp0.classList.remove('incorrect-input');
+              inp1.value = ''; inp1.classList.remove('incorrect-input');
+              if (!firstMissed) firstMissed = inp0;
+            } else if (q.type === 'text') {
+              const txt = document.getElementById(`rnd2-text-${idx}`);
+              txt.value = '';
+              if (!firstMissed) firstMissed = txt;
+            }
+          }
+        });
+
+        document.getElementById('rndDrillMissedBtn').style.display = 'none';
+        document.getElementById('rndShowAllBtn').style.display = 'inline-block';
+        document.getElementById('scoreBanner').className = 'score-banner score-fail';
+        document.getElementById('scoreBanner').textContent = `Drilling Missed Spot Drill (${countMissed} remaining)...`;
+
+        if (firstMissed) firstMissed.focus();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restoreAllRandomQuestions() {
+      if (activeRandomModeSection === 1) {
+        currentRandomSec1Items.forEach(item => {
+          document.getElementById(`random-block-${item.id}`).style.display = 'block';
+        });
+      } else {
+        currentRandomSec2Items.forEach((q, idx) => {
+          document.getElementById(`rnd2-block-${idx}`).style.display = 'block';
+        });
+      }
+      document.getElementById('rndShowAllBtn').style.display = 'none';
+      document.getElementById('scoreBanner').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function resetCurrentPage() {
       if (currentPage === 1) {
         masterKeySec1.forEach(item => {
-          document.getElementById(`input-${item.id}`).value = '';
           const block = document.getElementById(`block-${item.id}`);
+          block.style.display = 'block';
           block.classList.remove('correct-box', 'incorrect-box');
+          document.getElementById(`input-${item.id}`).value = '';
           document.getElementById(`badge-${item.id}`).style.display = 'none';
           document.getElementById(`sol-${item.id}`).style.display = 'none';
         });
       } else {
         document.querySelectorAll('#page-2 .blank-input').forEach(input => {
           input.value = '';
-          input.classList.remove('correct-input', 'incorrect-input');
+          input.classList.remove('correct-input', 'incorrect-input', 'locked-blank');
+          input.tabIndex = 0;
         });
         maneuversKey.forEach(item => {
-          document.getElementById(`maneuver-input-${item.id}`).value = '';
           const block = document.getElementById(`maneuver-block-${item.id}`);
           block.classList.remove('correct-box', 'incorrect-box');
+          const txt = document.getElementById(`maneuver-input-${item.id}`);
+          txt.value = '';
+          txt.disabled = false;
           document.getElementById(`maneuver-badge-${item.id}`).style.display = 'none';
           document.getElementById(`maneuver-sol-${item.id}`).style.display = 'none';
         });
       }
       document.getElementById('scoreBanner').style.display = 'none';
+      document.getElementById('drillMissedBtn').style.display = 'none';
+      document.getElementById('showAllBtn').style.display = 'none';
     }
 
     let sec1KeyVisible = false;
@@ -1167,11 +1718,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       } else {
         sec2KeyVisible = !sec2KeyVisible;
         document.querySelectorAll('#page-2 .blank-input').forEach(input => {
-          if (sec2KeyVisible) {
-            input.placeholder = input.getAttribute('data-ans');
-          } else {
-            input.placeholder = '';
-          }
+          input.placeholder = sec2KeyVisible ? input.getAttribute('data-ans') : '';
         });
         maneuversKey.forEach(item => {
           document.getElementById(`maneuver-sol-${item.id}`).style.display = sec2KeyVisible ? 'block' : 'none';
@@ -1179,8 +1726,349 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       }
     }
 
+    /* ================= RANDOMIZE DRILL GENERATOR ================= */
+    let currentRandomSec1Items = [];
+    let currentRandomSec2Items = [];
+
+    function startRandomDrill() {
+      inRandomMode = true;
+      activeRandomModeSection = currentPage;
+
+      document.getElementById('page-1').classList.remove('active-page');
+      document.getElementById('page-2').classList.remove('active-page');
+      document.getElementById('page-random').classList.add('active-page');
+
+      document.getElementById('main-button-group').style.display = 'none';
+      document.getElementById('random-button-group').style.display = 'flex';
+      document.getElementById('scoreBanner').style.display = 'none';
+      document.getElementById('rndDrillMissedBtn').style.display = 'none';
+      document.getElementById('rndShowAllBtn').style.display = 'none';
+
+      const container = document.getElementById('random-content-container');
+      const titleSpan = document.getElementById('random-drill-title');
+
+      if (activeRandomModeSection === 1) {
+        titleSpan.textContent = "Section 1. Boldface Emergency Procedures — Randomized 3 Question Drill";
+        
+        const shuffled = [...masterKeySec1].sort(() => 0.5 - Math.random());
+        currentRandomSec1Items = shuffled.slice(0, 3);
+
+        let html = '';
+        currentRandomSec1Items.forEach((item, index) => {
+          html += `
+            <div class="proc-block" id="random-block-${item.id}">
+              <div class="proc-title">
+                <span>${index + 1}. ${item.title}</span>
+                <span class="status-text" id="random-badge-${item.id}"></span>
+              </div>
+              <textarea class="proc-textarea" id="random-input-${item.id}" spellcheck="false" style="min-height: 58px;"></textarea>
+              <div class="solution-panel" id="random-sol-${item.id}">
+                <span class="label">Correct Answer:</span>${item.solution}
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+        attachAutoUppercase('#page-random .proc-textarea');
+      } else {
+        titleSpan.textContent = "Section 2. Operating Limitations — Randomized 10 Question Drill";
+        
+        const shuffled = [...sec2QuestionPool].sort(() => 0.5 - Math.random());
+        currentRandomSec2Items = shuffled.slice(0, 10);
+
+        let html = '';
+        currentRandomSec2Items.forEach((q, idx) => {
+          const qNum = idx + 1;
+          const prefix = q.prefix || '';
+
+          // Format: [Category 1] Category 2 -> Category 3 (Solid Bold Black)
+          let headerHTML = `<span class="q-cat1">[${q.category}]</span> <span class="q-cat2">${q.condition}</span>`;
+          if (q.parameter && q.parameter.trim() !== "") {
+            headerHTML += ` <span class="q-arrow">&rarr;</span> <span class="q-cat3">${q.parameter}</span>`;
+          }
+
+          if (q.type === 'single') {
+            html += `
+              <div class="random-q-item" id="rnd2-block-${idx}">
+                <div class="random-q-header">
+                  <span><strong>${qNum}.</strong> ${headerHTML}</span>
+                  <span class="status-text" id="rnd2-badge-${idx}"></span>
+                </div>
+                <div class="random-q-body">
+                  <span>${prefix}</span>
+                  <input class="blank-input w-60" id="rnd2-input-${idx}-0" data-ans="${q.ans[0]}" autocomplete="off">
+                  <span>${q.unit}</span>
+                </div>
+                <div class="solution-panel" id="rnd2-sol-${idx}">
+                  <span class="label">Correct Answer:</span>${prefix}${q.ans[0]} ${q.unit}
+                </div>
+              </div>
+            `;
+          } else if (q.type === 'range') {
+            html += `
+              <div class="random-q-item" id="rnd2-block-${idx}">
+                <div class="random-q-header">
+                  <span><strong>${qNum}.</strong> ${headerHTML}</span>
+                  <span class="status-text" id="rnd2-badge-${idx}"></span>
+                </div>
+                <div class="random-q-body">
+                  <input class="blank-input w-50" id="rnd2-input-${idx}-0" data-ans="${q.ans[0]}" autocomplete="off">
+                  <span>to</span>
+                  <input class="blank-input w-50" id="rnd2-input-${idx}-1" data-ans="${q.ans[1]}" autocomplete="off">
+                  <span>${q.unit}</span>
+                </div>
+                <div class="solution-panel" id="rnd2-sol-${idx}">
+                  <span class="label">Correct Answer:</span>${q.ans[0]} to ${q.ans[1]} ${q.unit}
+                </div>
+              </div>
+            `;
+          } else if (q.type === 'text') {
+            html += `
+              <div class="random-q-item" id="rnd2-block-${idx}">
+                <div class="random-q-header">
+                  <span><strong>${qNum}.</strong> ${headerHTML}</span>
+                  <span class="status-text" id="rnd2-badge-${idx}"></span>
+                </div>
+                <div style="margin-top: 4px;">
+                  <textarea class="prohibited-textarea" id="rnd2-text-${idx}" spellcheck="false" placeholder="Type exact prohibited maneuver (exact case)..."></textarea>
+                </div>
+                <div class="solution-panel" id="rnd2-sol-${idx}">
+                  <span class="label">Correct Answer:</span>${q.ans[0]}
+                </div>
+              </div>
+            `;
+          }
+        });
+
+        container.innerHTML = html;
+        // Bind auto-tab engine to the newly generated random questions
+        setupNumpadAutoTab('#page-random');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function exitRandomDrill() {
+      inRandomMode = false;
+      document.getElementById('page-random').classList.remove('active-page');
+      
+      if (currentPage === 1) {
+        document.getElementById('page-1').classList.add('active-page');
+      } else {
+        document.getElementById('page-2').classList.add('active-page');
+      }
+
+      document.getElementById('main-button-group').style.display = 'flex';
+      document.getElementById('random-button-group').style.display = 'none';
+      document.getElementById('scoreBanner').style.display = 'none';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function checkRandomDrill() {
+      if (activeRandomModeSection === 1) {
+        let correctCount = 0;
+        const totalCount = currentRandomSec1Items.length;
+        let hasIncorrect = false;
+
+        currentRandomSec1Items.forEach(item => {
+          const textarea = document.getElementById(`random-input-${item.id}`);
+          const block = document.getElementById(`random-block-${item.id}`);
+          const badge = document.getElementById(`random-badge-${item.id}`);
+          const solPanel = document.getElementById(`random-sol-${item.id}`);
+
+          const userLines = textarea.value
+            .split('\n')
+            .map(line => normalizeLine(line))
+            .filter(line => line.length > 0);
+
+          let isCorrect = true;
+          if (userLines.length !== item.expectedLines.length) {
+            isCorrect = false;
+          } else {
+            for (let i = 0; i < item.expectedLines.length; i++) {
+              const acceptedVariants = item.expectedLines[i].map(v => normalizeLine(v));
+              if (!acceptedVariants.includes(userLines[i])) {
+                isCorrect = false;
+                break;
+              }
+            }
+          }
+
+          block.classList.remove('correct-box', 'incorrect-box');
+          if (isCorrect) {
+            block.classList.add('correct-box');
+            badge.textContent = 'Correct';
+            solPanel.style.display = 'none';
+            correctCount++;
+          } else {
+            block.classList.add('incorrect-box');
+            badge.textContent = 'Incorrect';
+            solPanel.style.display = 'block';
+            hasIncorrect = true;
+          }
+        });
+
+        const banner = document.getElementById('scoreBanner');
+        banner.style.display = 'block';
+
+        const rndDrillMissedBtn = document.getElementById('rndDrillMissedBtn');
+        if (correctCount === totalCount) {
+          banner.className = 'score-banner score-pass';
+          banner.textContent = `Random Boldface Drill: ${correctCount} / ${totalCount} (100%) — Perfect Score!`;
+          rndDrillMissedBtn.style.display = 'none';
+        } else {
+          banner.className = 'score-banner score-fail';
+          banner.textContent = `Random Boldface Drill: ${correctCount} / ${totalCount} (${Math.round((correctCount / totalCount) * 100)}%) — Boldface requires 100%`;
+          if (hasIncorrect) rndDrillMissedBtn.style.display = 'inline-block';
+        }
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        let correctCount = 0;
+        const totalCount = currentRandomSec2Items.length;
+        let hasIncorrect = false;
+
+        currentRandomSec2Items.forEach((q, idx) => {
+          const block = document.getElementById(`rnd2-block-${idx}`);
+          const badge = document.getElementById(`rnd2-badge-${idx}`);
+          const solPanel = document.getElementById(`rnd2-sol-${idx}`);
+          let qCorrect = true;
+
+          if (q.type === 'single') {
+            const input = document.getElementById(`rnd2-input-${idx}-0`);
+            const normUser = normalizeNumber(input.value.trim());
+            const normExp = normalizeNumber(q.ans[0]);
+            const match = (normUser === normExp) || (parseFloat(normUser) === parseFloat(normExp) && normUser !== '');
+
+            input.classList.remove('correct-input', 'incorrect-input');
+            if (match) {
+              input.classList.add('correct-input');
+            } else {
+              input.classList.add('incorrect-input');
+              qCorrect = false;
+            }
+          } else if (q.type === 'range') {
+            const input0 = document.getElementById(`rnd2-input-${idx}-0`);
+            const input1 = document.getElementById(`rnd2-input-${idx}-1`);
+
+            const normUser0 = normalizeNumber(input0.value.trim());
+            const normExp0 = normalizeNumber(q.ans[0]);
+            const match0 = (normUser0 === normExp0) || (parseFloat(normUser0) === parseFloat(normExp0) && normUser0 !== '');
+
+            const normUser1 = normalizeNumber(input1.value.trim());
+            const normExp1 = normalizeNumber(q.ans[1]);
+            const match1 = (normUser1 === normExp1) || (parseFloat(normUser1) === parseFloat(normExp1) && normUser1 !== '');
+
+            input0.classList.remove('correct-input', 'incorrect-input');
+            input1.classList.remove('correct-input', 'incorrect-input');
+
+            if (match0) input0.classList.add('correct-input');
+            else { input0.classList.add('incorrect-input'); qCorrect = false; }
+
+            if (match1) input1.classList.add('correct-input');
+            else { input1.classList.add('incorrect-input'); qCorrect = false; }
+          } else if (q.type === 'text') {
+            const textarea = document.getElementById(`rnd2-text-${idx}`);
+            // Exact casing comparison
+            const normUser = normalizeManeuverExact(textarea.value);
+            qCorrect = q.expectedVariants.some(exp => normalizeManeuverExact(exp) === normUser);
+          }
+
+          block.classList.remove('correct-box', 'incorrect-box');
+          if (qCorrect) {
+            block.classList.add('correct-box');
+            badge.textContent = 'Correct';
+            solPanel.style.display = 'none';
+            correctCount++;
+          } else {
+            block.classList.add('incorrect-box');
+            badge.textContent = 'Incorrect';
+            solPanel.style.display = 'block';
+            hasIncorrect = true;
+          }
+        });
+
+        const banner = document.getElementById('scoreBanner');
+        banner.style.display = 'block';
+
+        const pct = Math.round((correctCount / totalCount) * 100);
+        const rndDrillMissedBtn = document.getElementById('rndDrillMissedBtn');
+        if (correctCount === totalCount) {
+          banner.className = 'score-banner score-pass';
+          banner.textContent = `Section 2 Spot Drill: ${correctCount} / ${totalCount} (100%) — All Questions Correct!`;
+          rndDrillMissedBtn.style.display = 'none';
+        } else {
+          banner.className = 'score-banner score-fail';
+          banner.textContent = `Section 2 Spot Drill: ${correctCount} / ${totalCount} (${pct}%) Correct`;
+          if (hasIncorrect) rndDrillMissedBtn.style.display = 'inline-block';
+        }
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function resetRandomDrill() {
+      if (activeRandomModeSection === 1) {
+        currentRandomSec1Items.forEach(item => {
+          const block = document.getElementById(`random-block-${item.id}`);
+          block.style.display = 'block';
+          block.classList.remove('correct-box', 'incorrect-box');
+          const textarea = document.getElementById(`random-input-${item.id}`);
+          if (textarea) textarea.value = '';
+          const badge = document.getElementById(`random-badge-${item.id}`);
+          if (badge) badge.style.display = 'none';
+          const solPanel = document.getElementById(`random-sol-${item.id}`);
+          if (solPanel) solPanel.style.display = 'none';
+        });
+      } else {
+        currentRandomSec2Items.forEach((q, idx) => {
+          const block = document.getElementById(`rnd2-block-${idx}`);
+          block.style.display = 'block';
+          block.classList.remove('correct-box', 'incorrect-box');
+          const badge = document.getElementById(`rnd2-badge-${idx}`);
+          if (badge) badge.style.display = 'none';
+          const solPanel = document.getElementById(`rnd2-sol-${idx}`);
+          if (solPanel) solPanel.style.display = 'none';
+
+          if (q.type === 'single') {
+            const input = document.getElementById(`rnd2-input-${idx}-0`);
+            if (input) { input.value = ''; input.classList.remove('correct-input', 'incorrect-input'); }
+          } else if (q.type === 'range') {
+            const input0 = document.getElementById(`rnd2-input-${idx}-0`);
+            const input1 = document.getElementById(`rnd2-input-${idx}-1`);
+            if (input0) { input0.value = ''; input0.classList.remove('correct-input', 'incorrect-input'); }
+            if (input1) { input1.value = ''; input1.classList.remove('correct-input', 'incorrect-input'); }
+          } else if (q.type === 'text') {
+            const textarea = document.getElementById(`rnd2-text-${idx}`);
+            if (textarea) textarea.value = '';
+          }
+        });
+      }
+      document.getElementById('scoreBanner').style.display = 'none';
+      document.getElementById('rndDrillMissedBtn').style.display = 'none';
+      document.getElementById('rndShowAllBtn').style.display = 'none';
+    }
+
+    let randomKeyVisible = false;
+    function toggleRandomKey() {
+      randomKeyVisible = !randomKeyVisible;
+      if (activeRandomModeSection === 1) {
+        currentRandomSec1Items.forEach(item => {
+          const sol = document.getElementById(`random-sol-${item.id}`);
+          if (sol) sol.style.display = randomKeyVisible ? 'block' : 'none';
+        });
+      } else {
+        currentRandomSec2Items.forEach((q, idx) => {
+          const sol = document.getElementById(`rnd2-sol-${idx}`);
+          if (sol) sol.style.display = randomKeyVisible ? 'block' : 'none';
+        });
+      }
+    }
+
     // Default current date
-    document.getElementById('dateCompleted').value = new Date().toLocaleDateString('en-US');
+    const todayStr = new Date().toLocaleDateString('en-US');
+    document.getElementById('dateCompleted').value = todayStr;
+    const rndDate = document.getElementById('random-dateCompleted');
+    if (rndDate) rndDate.value = todayStr;
   </script>
 </body>
 </html>
