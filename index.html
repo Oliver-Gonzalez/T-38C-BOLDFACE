@@ -15,25 +15,26 @@
       background-color: #f0f2f5;
       font-family: "Times New Roman", Times, Georgia, serif;
       color: #000;
-      padding: 24px 12px 60px;
+      padding: clamp(14px, 2.5vw, 28px) clamp(8px, 2vw, 16px) 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
       position: relative;
+      min-height: 100vh;
     }
 
     /* ================= TOP RIGHT HAMBURGER NAVIGATION ================= */
     .nav-menu-container {
       position: fixed;
-      top: 18px;
-      right: 20px;
+      top: clamp(12px, 2vw, 18px);
+      right: clamp(12px, 2vw, 20px);
       z-index: 2000;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     .hamburger-btn {
-      width: 42px;
-      height: 42px;
+      width: clamp(38px, 5vw, 42px);
+      height: clamp(38px, 5vw, 42px);
       background-color: #ffffff;
       border: 1.5px solid #000000;
       border-radius: 6px;
@@ -57,7 +58,7 @@
 
     .hamburger-btn span {
       display: block;
-      width: 20px;
+      width: clamp(18px, 2.5vw, 20px);
       height: 2px;
       background-color: #000000;
       border-radius: 1px;
@@ -84,7 +85,7 @@
       position: absolute;
       top: calc(100% + 8px);
       right: 0;
-      width: 290px;
+      width: min(290px, 86vw);
       background: #ffffff;
       border: 2px solid #000000;
       border-radius: 8px;
@@ -179,14 +180,15 @@
       margin: 4px 0;
     }
 
-    /* 1-to-1 Document Container (960px width) */
+    /* Dynamic Fluid Document Container */
     .document-page {
       background: #ffffff;
       width: 100%;
-      max-width: 960px;
+      max-width: min(960px, 100%);
       border: 2px solid #000;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
       display: none;
+      margin: 0 auto;
     }
 
     .document-page.active-page {
@@ -197,16 +199,26 @@
     .doc-header-title {
       border-bottom: 1.5px solid #000;
       text-align: center;
-      font-size: 16px;
+      font-size: clamp(13px, 1.8vw, 16px);
       font-weight: bold;
-      padding: 6px 10px;
+      padding: 6px clamp(8px, 1.5vw, 10px);
     }
 
     .meta-row {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       border-bottom: 1.5px solid #000;
-      font-size: 13.5px;
+      font-size: clamp(12px, 1.5vw, 13.5px);
+    }
+
+    @media (max-width: 580px) {
+      .meta-row {
+        grid-template-columns: 1fr;
+      }
+      .meta-cell:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid #000;
+      }
     }
 
     .meta-cell {
@@ -220,7 +232,7 @@
     }
 
     .meta-cell label {
-      font-size: 13px;
+      font-size: clamp(11.5px, 1.4vw, 13px);
       margin-right: 6px;
       white-space: nowrap;
     }
@@ -230,13 +242,13 @@
       outline: none;
       width: 100%;
       font-family: "Times New Roman", Times, serif;
-      font-size: 13.5px;
+      font-size: clamp(12px, 1.5vw, 13.5px);
       background: transparent;
     }
 
     .section-title {
       border-bottom: 1.5px solid #000;
-      font-size: 15px;
+      font-size: clamp(13px, 1.6vw, 15px);
       font-weight: bold;
       padding: 5px 8px;
       background: #fff;
@@ -258,7 +270,7 @@
     /* ================= SECTION 1 BOLDFACE BLOCKS ================= */
     .proc-block {
       border-bottom: 1.5px solid #000;
-      padding: 8px 12px 10px;
+      padding: clamp(6px, 1.2vw, 8px) clamp(8px, 1.6vw, 12px) clamp(8px, 1.4vw, 10px);
       transition: background-color 0.2s ease;
       position: relative;
     }
@@ -268,12 +280,13 @@
     }
 
     .proc-title {
-      font-size: 14px;
+      font-size: clamp(12.5px, 1.6vw, 14px);
       font-weight: bold;
       margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      line-height: 1.35;
     }
 
     .status-text {
@@ -288,7 +301,7 @@
     .proc-textarea {
       width: 100%;
       font-family: "Times New Roman", Times, serif;
-      font-size: 14.5px;
+      font-size: clamp(13px, 1.6vw, 14.5px);
       font-weight: bold;
       line-height: 1.45;
       color: #000;
@@ -307,17 +320,25 @@
     #block-6 .proc-textarea { min-height: 52px; }
     #block-7 .proc-textarea { min-height: 72px; }
 
-    /* ================= SECTION 2 1-TO-1 TABLES ================= */
+    /* ================= SECTION 2 ENGINE TABLES & RESPONSIVENESS ================= */
+    .table-responsive-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-bottom: 1.5px solid #000;
+    }
+
     table.one-to-one-table {
       width: 100%;
+      min-width: 580px; /* Guarantees 7-column layout legibility without squishing */
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: clamp(10px, 1.3vw, 12px);
       table-layout: fixed;
     }
 
     table.one-to-one-table th, table.one-to-one-table td {
       border: 1px solid #000;
-      padding: 4px 4px;
+      padding: 4px clamp(2px, 0.4vw, 4px);
       text-align: center;
       vertical-align: middle;
     }
@@ -345,7 +366,7 @@
       background: transparent;
       outline: none;
       font-family: "Times New Roman", Times, serif;
-      font-size: 12px;
+      font-size: clamp(10.5px, 1.4vw, 12px);
       font-weight: bold;
       text-align: center;
       padding: 0 1px;
@@ -372,9 +393,9 @@
     /* Notes under Engine Table */
     .engine-notes-block {
       padding: 6px 8px;
-      font-size: 11px;
+      font-size: clamp(9.5px, 1.25vw, 11px);
       line-height: 1.45;
-      border-bottom: 1px solid #000;
+      border-bottom: 1.5px solid #000;
       text-align: justify;
     }
 
@@ -383,12 +404,12 @@
     }
 
     .engine-notes-block strong {
-      font-size: 11.5px;
+      font-size: clamp(10px, 1.3vw, 11.5px);
     }
 
     .caution-inner-cell {
       text-align: justify !important;
-      font-size: 10.5px !important;
+      font-size: clamp(9.5px, 1.2vw, 10.5px) !important;
       line-height: 1.35 !important;
       padding: 6px 8px !important;
       vertical-align: middle !important;
@@ -399,7 +420,7 @@
       font-weight: bold;
       text-align: center;
       padding: 4px 0;
-      font-size: 12.5px;
+      font-size: clamp(11.5px, 1.5vw, 12.5px);
       border-top: 1px solid #000;
       border-bottom: 1px solid #000;
     }
@@ -408,6 +429,16 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       border-bottom: 1px solid #000;
+    }
+
+    @media (max-width: 600px) {
+      .prohibited-row-split {
+        grid-template-columns: 1fr;
+      }
+      .prohibited-box:first-child {
+        border-right: none !important;
+        border-bottom: 1px solid #000;
+      }
     }
 
     .prohibited-box {
@@ -422,12 +453,11 @@
     .prohibited-box-full {
       padding: 6px 8px;
       min-height: 60px;
-      border-bottom: 1px solid #000;
     }
 
     .prohibited-hdr {
       font-weight: bold;
-      font-size: 12.5px;
+      font-size: clamp(11.5px, 1.5vw, 12.5px);
       display: flex;
       justify-content: space-between;
       margin-bottom: 4px;
@@ -440,7 +470,7 @@
       outline: none;
       background: transparent;
       font-family: "Times New Roman", Times, serif;
-      font-size: 12.5px;
+      font-size: clamp(11.5px, 1.5vw, 12.5px);
       font-weight: bold;
       resize: vertical;
     }
@@ -448,7 +478,7 @@
     /* ================= RANDOM QUESTIONS 10-ITEM LAYOUT (BOLD BLACK) ================= */
     .random-q-item {
       border-bottom: 1.5px solid #000;
-      padding: 11px 14px;
+      padding: 11px clamp(8px, 1.6vw, 14px);
       transition: background-color 0.2s ease;
       position: relative;
     }
@@ -458,7 +488,7 @@
     }
 
     .random-q-header {
-      font-size: 13.5px;
+      font-size: clamp(12px, 1.6vw, 13.5px);
       margin-bottom: 7px;
       display: flex;
       justify-content: space-between;
@@ -466,10 +496,11 @@
       line-height: 1.4;
       font-weight: bold;
       color: #000000;
+      gap: 6px;
     }
 
     .random-q-standard {
-      font-size: 13.5px;
+      font-size: clamp(12px, 1.6vw, 13.5px);
       font-weight: bold;
       color: #000000;
       margin-left: 3px;
@@ -488,7 +519,7 @@
     }
 
     .random-q-body {
-      font-size: 13.5px;
+      font-size: clamp(12px, 1.6vw, 13.5px);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -496,7 +527,7 @@
     }
 
     .random-q-body .blank-input {
-      font-size: 13.5px;
+      font-size: clamp(12px, 1.6vw, 13.5px);
       padding: 1px 4px;
     }
 
@@ -556,10 +587,10 @@
       letter-spacing: 0.4px;
     }
 
-    /* ================= CONTROLS & MINIMALIST BUTTONS ================= */
+    /* ================= CONTROLS & RESPONSIVE BUTTONS ================= */
     .controls-panel {
       width: 100%;
-      max-width: 960px;
+      max-width: min(960px, 100%);
       margin-top: 20px;
       display: flex;
       flex-direction: column;
@@ -573,7 +604,7 @@
       padding: 10px 14px;
       text-align: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 13.5px;
+      font-size: clamp(12px, 1.6vw, 13.5px);
       font-weight: 500;
       letter-spacing: 0.2px;
       border-radius: 4px;
@@ -593,20 +624,20 @@
 
     .button-group {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    /* Minimalist Button with Hover Tooltip System */
+    /* Fluid Minimalist Button */
     .btn {
       position: relative;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 12px;
+      font-size: clamp(11px, 1.4vw, 12px);
       font-weight: 600;
       letter-spacing: 0.4px;
       text-transform: uppercase;
-      padding: 9px 18px;
+      padding: clamp(7px, 1.2vw, 9px) clamp(12px, 1.8vw, 18px);
       border-radius: 4px;
       cursor: pointer;
       border: none;
@@ -698,6 +729,15 @@
       .nav-menu-container, .controls-panel {
         display: none !important;
       }
+      body {
+        padding: 0;
+        background: #fff;
+      }
+      .document-page {
+        border: none;
+        box-shadow: none;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -734,7 +774,7 @@
         <span class="nav-arrow">&rarr;</span>
       </a>
 
-      <!-- (T-38 omitted since user is currently on T-38) -->
+      <!-- (T-38 omitted since user is on T-38) -->
 
       <div class="nav-divider"></div>
       <div class="nav-section-label">AUX TOOLS</div>
@@ -742,6 +782,18 @@
       <!-- MCSTS Playtime Calculator -->
       <a href="https://mcsts-playtime-calculator.pages.dev/" class="nav-item nav-item-aux">
         <span>MCSTS PLAYTIME CALCULATOR</span>
+        <span class="nav-arrow">&rarr;</span>
+      </a>
+
+      <!-- TF Bomb-Run Calculator -->
+      <a href="https://tf-bomb-run-calc.pages.dev/" class="nav-item nav-item-aux">
+        <span>TF BOMB-RUN CALCULATOR</span>
+        <span class="nav-arrow">&rarr;</span>
+      </a>
+
+      <!-- Instrument Approach Timer -->
+      <a href="https://approach-timer.pages.dev/" class="nav-item nav-item-aux">
+        <span>INSTRUMENT APPROACH TIMER</span>
         <span class="nav-arrow">&rarr;</span>
       </a>
     </div>
@@ -867,146 +919,148 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
 
   </div>
 
-  <!-- ================= PAGE 2: OPERATING LIMITATIONS (FULL 1-TO-1) ================= -->
+  <!-- ================= PAGE 2: OPERATING LIMITATIONS (FULL 1-TO-1 DYNAMIC) ================= -->
   <div class="document-page" id="page-2">
     <div class="section-title">
       Section 2. Operating Limitations
     </div>
 
-    <!-- Engine Table -->
-    <table class="one-to-one-table">
-      <thead>
-        <tr>
-          <th rowspan="2" style="width: 17%;">Condition</th>
-          <th colspan="6">Engine</th>
-        </tr>
-        <tr>
-          <th style="width: 13%;">EGT<br>°C</th>
-          <th style="width: 13%;">RPM<br>%</th>
-          <th style="width: 13%;">Nozzle Position<br>%</th>
-          <th style="width: 20%;">Fuel Flow<br>LB / HR</th>
-          <th style="width: 13%;">Oil Pressure<br>PSI</th>
-          <th style="width: 11%;">Time Duration<br>(Minutes)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="sub-head"><td colspan="7">Ground Steady State</td></tr>
-        <!-- Start -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Start</td>
-          <td>*<input class="blank-input w-35" data-ans="925"> (Max) <input class="blank-input w-35" data-ans="845"></td>
-          <td class="shaded"></td>
-          <td class="shaded"></td>
-          <td>***<input class="blank-input w-40" data-ans="360"> (Max)</td>
-          <td>****</td>
-          <td class="shaded"></td>
-        </tr>
-        <!-- Idle -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Idle</td>
-          <td class="shaded"></td>
-          <td><input class="blank-input w-35" data-ans="46"> - <input class="blank-input w-35" data-ans="50"></td>
-          <td><input class="blank-input w-35" data-ans="77"> - <input class="blank-input w-35" data-ans="92"></td>
-          <td><input class="blank-input w-35" data-ans="400"> - <input class="blank-input w-35" data-ans="600"> (Std Day)</td>
-          <td><input class="blank-input w-35" data-ans="5"> - <input class="blank-input w-35" data-ans="20"></td>
-          <td class="shaded"></td>
-        </tr>
-        <!-- Military -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Military</td>
-          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
-          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
-          <td><input class="blank-input w-35" data-ans="0"> - <input class="blank-input w-35" data-ans="20"></td>
-          <td><input class="blank-input w-40" data-ans="2100"> - <input class="blank-input w-40" data-ans="2700"> (Sea Level)</td>
-          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
-          <td><input class="blank-input w-30" data-ans="5"></td>
-        </tr>
-        <!-- (Max) / Afterburner -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
-          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
-          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
-          <td><input class="blank-input w-35" data-ans="50"> - <input class="blank-input w-35" data-ans="85"></td>
-          <td class="shaded"></td>
-          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
-          <td><input class="blank-input w-30" data-ans="5"></td>
-        </tr>
+    <!-- Engine Table (Responsive Wrapper for Small Screens) -->
+    <div class="table-responsive-wrapper">
+      <table class="one-to-one-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width: 17%;">Condition</th>
+            <th colspan="6">Engine</th>
+          </tr>
+          <tr>
+            <th style="width: 13%;">EGT<br>°C</th>
+            <th style="width: 13%;">RPM<br>%</th>
+            <th style="width: 13%;">Nozzle Position<br>%</th>
+            <th style="width: 20%;">Fuel Flow<br>LB / HR</th>
+            <th style="width: 13%;">Oil Pressure<br>PSI</th>
+            <th style="width: 11%;">Time Duration<br>(Minutes)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="sub-head"><td colspan="7">Ground Steady State</td></tr>
+          <!-- Start -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Start</td>
+            <td>*<input class="blank-input w-35" data-ans="925"> (Max) <input class="blank-input w-35" data-ans="845"></td>
+            <td class="shaded"></td>
+            <td class="shaded"></td>
+            <td>***<input class="blank-input w-40" data-ans="360"> (Max)</td>
+            <td>****</td>
+            <td class="shaded"></td>
+          </tr>
+          <!-- Idle -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Idle</td>
+            <td class="shaded"></td>
+            <td><input class="blank-input w-35" data-ans="46"> - <input class="blank-input w-35" data-ans="50"></td>
+            <td><input class="blank-input w-35" data-ans="77"> - <input class="blank-input w-35" data-ans="92"></td>
+            <td><input class="blank-input w-35" data-ans="400"> - <input class="blank-input w-35" data-ans="600"> (Std Day)</td>
+            <td><input class="blank-input w-35" data-ans="5"> - <input class="blank-input w-35" data-ans="20"></td>
+            <td class="shaded"></td>
+          </tr>
+          <!-- Military -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Military</td>
+            <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+            <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
+            <td><input class="blank-input w-35" data-ans="0"> - <input class="blank-input w-35" data-ans="20"></td>
+            <td><input class="blank-input w-40" data-ans="2100"> - <input class="blank-input w-40" data-ans="2700"> (Sea Level)</td>
+            <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+            <td><input class="blank-input w-30" data-ans="5"></td>
+          </tr>
+          <!-- (Max) / Afterburner -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
+            <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+            <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
+            <td><input class="blank-input w-35" data-ans="50"> - <input class="blank-input w-35" data-ans="85"></td>
+            <td class="shaded"></td>
+            <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+            <td><input class="blank-input w-30" data-ans="5"></td>
+          </tr>
 
-        <tr class="sub-head"><td colspan="7">Flight Steady State</td></tr>
-        <!-- Start -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Start</td>
-          <td>*<input class="blank-input w-40" data-ans="925"> (Max)</td>
-          <td class="shaded"></td>
-          <td class="shaded"></td>
-          <td>***<input class="blank-input w-40" data-ans="360"> (Max)</td>
-          <td>****</td>
-          <td class="shaded"></td>
-        </tr>
-        <!-- Idle -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Idle</td>
-          <td class="shaded"></td>
-          <td class="shaded"></td>
-          <td class="shaded"></td>
-          <td><input class="blank-input w-40" data-ans="200"> (Min) (Std Day)</td>
-          <td><input class="blank-input w-35" data-ans="5"> (Min)</td>
-          <td class="shaded"></td>
-        </tr>
-        <!-- Military -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Military</td>
-          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
-          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="104"></td>
-          <td><input class="blank-input w-35" data-ans="0"> - <input class="blank-input w-35" data-ans="20"></td>
-          <td class="shaded"></td>
-          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
-          <td><input class="blank-input w-30" data-ans="30"></td>
-        </tr>
-        <!-- (Max) / Afterburner -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
-          <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
-          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="104"></td>
-          <td><input class="blank-input w-35" data-ans="50"> - <input class="blank-input w-35" data-ans="85"></td>
-          <td class="shaded"></td>
-          <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
-          <td><input class="blank-input w-30" data-ans="15"></td>
-        </tr>
+          <tr class="sub-head"><td colspan="7">Flight Steady State</td></tr>
+          <!-- Start -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Start</td>
+            <td>*<input class="blank-input w-40" data-ans="925"> (Max)</td>
+            <td class="shaded"></td>
+            <td class="shaded"></td>
+            <td>***<input class="blank-input w-40" data-ans="360"> (Max)</td>
+            <td>****</td>
+            <td class="shaded"></td>
+          </tr>
+          <!-- Idle -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Idle</td>
+            <td class="shaded"></td>
+            <td class="shaded"></td>
+            <td class="shaded"></td>
+            <td><input class="blank-input w-40" data-ans="200"> (Min) (Std Day)</td>
+            <td><input class="blank-input w-35" data-ans="5"> (Min)</td>
+            <td class="shaded"></td>
+          </tr>
+          <!-- Military -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Military</td>
+            <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+            <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="104"></td>
+            <td><input class="blank-input w-35" data-ans="0"> - <input class="blank-input w-35" data-ans="20"></td>
+            <td class="shaded"></td>
+            <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+            <td><input class="blank-input w-30" data-ans="30"></td>
+          </tr>
+          <!-- (Max) / Afterburner -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">(Max) / Afterburner</td>
+            <td><input class="blank-input w-35" data-ans="630"> - <input class="blank-input w-35" data-ans="650"></td>
+            <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="104"></td>
+            <td><input class="blank-input w-35" data-ans="50"> - <input class="blank-input w-35" data-ans="85"></td>
+            <td class="shaded"></td>
+            <td><input class="blank-input w-35" data-ans="20"> - <input class="blank-input w-35" data-ans="55"></td>
+            <td><input class="blank-input w-30" data-ans="15"></td>
+          </tr>
 
-        <tr class="sub-head"><td colspan="7">Fluctuation Limits (Within Steady State Limits)</td></tr>
-        <!-- Idle (Ground) -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Idle (Ground)</td>
-          <td class="shaded"></td>
-          <td><input class="blank-input w-35" data-ans="46"> - <input class="blank-input w-35" data-ans="50"></td>
-          <td>None Allowed</td>
-          <td>± <input class="blank-input w-35" data-ans="25"></td>
-          <td>± <input class="blank-input w-30" data-ans="2"></td>
-          <td class="shaded"></td>
-        </tr>
-        <!-- MIL and AB (Ground) -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">MIL and AB<br>(Ground)</td>
-          <td>**</td>
-          <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
-          <td>± <input class="blank-input w-30" data-ans="3"></td>
-          <td>± <input class="blank-input w-35" data-ans="50"></td>
-          <td>± <input class="blank-input w-30" data-ans="2"></td>
-          <td class="shaded"></td>
-        </tr>
-        <!-- MIL and AB (Flight) -->
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">MIL and AB (Flight)</td>
-          <td>**</td>
-          <td>± <input class="blank-input w-30" data-ans="1"></td>
-          <td>± <input class="blank-input w-30" data-ans="3"></td>
-          <td>± <input class="blank-input w-35" data-ans="50"></td>
-          <td>± <input class="blank-input w-30" data-ans="2"></td>
-          <td class="shaded"></td>
-        </tr>
-      </tbody>
-    </table>
+          <tr class="sub-head"><td colspan="7">Fluctuation Limits (Within Steady State Limits)</td></tr>
+          <!-- Idle (Ground) -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Idle (Ground)</td>
+            <td class="shaded"></td>
+            <td><input class="blank-input w-35" data-ans="46"> - <input class="blank-input w-35" data-ans="50"></td>
+            <td>None Allowed</td>
+            <td>± <input class="blank-input w-35" data-ans="25"></td>
+            <td>± <input class="blank-input w-30" data-ans="2"></td>
+            <td class="shaded"></td>
+          </tr>
+          <!-- MIL and AB (Ground) -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">MIL and AB<br>(Ground)</td>
+            <td>**</td>
+            <td><input class="blank-input w-35" data-ans="99"> - <input class="blank-input w-35" data-ans="101"></td>
+            <td>± <input class="blank-input w-30" data-ans="3"></td>
+            <td>± <input class="blank-input w-35" data-ans="50"></td>
+            <td>± <input class="blank-input w-30" data-ans="2"></td>
+            <td class="shaded"></td>
+          </tr>
+          <!-- MIL and AB (Flight) -->
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">MIL and AB (Flight)</td>
+            <td>**</td>
+            <td>± <input class="blank-input w-30" data-ans="1"></td>
+            <td>± <input class="blank-input w-30" data-ans="3"></td>
+            <td>± <input class="blank-input w-35" data-ans="50"></td>
+            <td>± <input class="blank-input w-30" data-ans="2"></td>
+            <td class="shaded"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Engine Notes Block -->
     <div class="engine-notes-block">
@@ -1017,110 +1071,116 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       <p><strong>Oil Pressure:</strong> ****Do not advance throttle above idle without a positive (&gt;0) indication of oil pressure. During cold weather, oil pressure may exceed limitations. This is normal indication as long as the oil pressure continues to decrease as engine oil warms. Do not exceed <input class="blank-input w-30" data-ans="5"> minutes in military power with oil pressure above <input class="blank-input w-30" data-ans="55"> PSI. If a sudden change of <input class="blank-input w-30" data-ans="10"> PSI or greater in oil pressure indication occurs at any stabilized RPM, follow engine oil system malfunction procedures in Section III of the DASH 1.</p>
     </div>
 
-    <!-- Combined Airspeed & Load Factor Grid -->
-    <table class="one-to-one-table">
-      <thead>
-        <tr>
-          <th colspan="2" style="width: 48%;">Airspeed</th>
-          <th colspan="3" style="width: 52%;">Load Factor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align: left; padding-left: 6px; width: 28%;">Flaps 1% - 45%</td>
-          <td style="text-align: right; padding-right: 8px; width: 20%;"><input class="blank-input w-50" data-ans="300"> KCAS</td>
-          <td style="font-weight: bold; width: 16%;">Fuel (LBS)</td>
-          <td style="font-weight: bold; width: 18%;">Max Sym G</td>
-          <td style="font-weight: bold; width: 18%;">Max Asym G</td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Flaps 46% - 60%</td>
-          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="240"> KCAS</td>
-          <td>3500</td>
-          <td><input class="blank-input w-30" data-ans="-2.3"> to <input class="blank-input w-30" data-ans="+5.7"></td>
-          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.1"></td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Flaps Over 60%</td>
-          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="220"> KCAS</td>
-          <td>3000</td>
-          <td><input class="blank-input w-30" data-ans="-2.4"> to <input class="blank-input w-30" data-ans="+5.9"></td>
-          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.3"></td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Canopy</td>
-          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="50"> KCAS</td>
-          <td>2000</td>
-          <td><input class="blank-input w-30" data-ans="-2.6"> to <input class="blank-input w-30" data-ans="+6.5"></td>
-          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.7"></td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Gear / Gear Doors</td>
-          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="240"> KCAS</td>
-          <td>1000</td>
-          <td><input class="blank-input w-30" data-ans="-2.9"> to <input class="blank-input w-30" data-ans="+7.2"></td>
-          <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+5.0"></td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Nose Wheel Steering</td>
-          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="65"> Kts GS</td>
-          <td colspan="3" rowspan="3" class="caution-inner-cell">
-            <strong>Caution:</strong> Extension / retraction of landing gear at bank angles greater than <input class="blank-input w-30" data-ans="45"> ° or at load factors greater than <input class="blank-input w-30" data-ans="1.5"> G can result in overstress failure of the main landing gear sidebrace trunnion.
-          </td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Main Wheel Tire</td>
-          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="221"> Kts GS</td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Nose Wheel Tire</td>
-          <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="174"> Kts GS</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Airspeed & Load Factor Grid (Responsive Table Wrapper) -->
+    <div class="table-responsive-wrapper">
+      <table class="one-to-one-table">
+        <thead>
+          <tr>
+            <th colspan="2" style="width: 48%;">Airspeed</th>
+            <th colspan="3" style="width: 52%;">Load Factor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: left; padding-left: 6px; width: 28%;">Flaps 1% - 45%</td>
+            <td style="text-align: right; padding-right: 8px; width: 20%;"><input class="blank-input w-50" data-ans="300"> KCAS</td>
+            <td style="font-weight: bold; width: 16%;">Fuel (LBS)</td>
+            <td style="font-weight: bold; width: 18%;">Max Sym G</td>
+            <td style="font-weight: bold; width: 18%;">Max Asym G</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Flaps 46% - 60%</td>
+            <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="240"> KCAS</td>
+            <td>3500</td>
+            <td><input class="blank-input w-30" data-ans="-2.3"> to <input class="blank-input w-30" data-ans="+5.7"></td>
+            <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.1"></td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Flaps Over 60%</td>
+            <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="220"> KCAS</td>
+            <td>3000</td>
+            <td><input class="blank-input w-30" data-ans="-2.4"> to <input class="blank-input w-30" data-ans="+5.9"></td>
+            <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.3"></td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Canopy</td>
+            <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="50"> KCAS</td>
+            <td>2000</td>
+            <td><input class="blank-input w-30" data-ans="-2.6"> to <input class="blank-input w-30" data-ans="+6.5"></td>
+            <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+4.7"></td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Gear / Gear Doors</td>
+            <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="240"> KCAS</td>
+            <td>1000</td>
+            <td><input class="blank-input w-30" data-ans="-2.9"> to <input class="blank-input w-30" data-ans="+7.2"></td>
+            <td><input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-30" data-ans="+5.0"></td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Nose Wheel Steering</td>
+            <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="65"> Kts GS</td>
+            <td colspan="3" rowspan="3" class="caution-inner-cell">
+              <strong>Caution:</strong> Extension / retraction of landing gear at bank angles greater than <input class="blank-input w-30" data-ans="45"> ° or at load factors greater than <input class="blank-input w-30" data-ans="1.5"> G can result in overstress failure of the main landing gear sidebrace trunnion.
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Main Wheel Tire</td>
+            <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="221"> Kts GS</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Nose Wheel Tire</td>
+            <td style="text-align: right; padding-right: 8px;"><input class="blank-input w-50" data-ans="174"> Kts GS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Hydraulic & Oxygen Pressure Table -->
-    <table class="one-to-one-table">
-      <thead>
-        <tr>
-          <th colspan="4" style="width: 48%;">Hydraulic Pressure</th>
-          <th colspan="2" style="width: 52%;">Oxygen Pressure</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="width: 12%; text-align: left; padding-left: 6px;">Min PSI</td>
-          <td style="width: 12%;"><input class="blank-input w-50" data-ans="1500"></td>
-          <td style="width: 12%; text-align: left; padding-left: 6px;">Max PSI</td>
-          <td style="width: 12%;"><input class="blank-input w-50" data-ans="3200"></td>
-          <td style="width: 20%; text-align: left; padding-left: 8px;">Normal Range</td>
-          <td style="width: 32%; text-align: center;"><input class="blank-input w-35" data-ans="50"> PSI to <input class="blank-input w-35" data-ans="120"> PSI</td>
-        </tr>
-        <tr>
-          <td style="text-align: left; padding-left: 6px;">Normal Range</td>
-          <td colspan="3"><input class="blank-input w-50" data-ans="2850"> PSI to <input class="blank-input w-50" data-ans="3200"> PSI</td>
-          <td colspan="2" class="shaded" style="height: 24px;"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive-wrapper">
+      <table class="one-to-one-table">
+        <thead>
+          <tr>
+            <th colspan="4" style="width: 48%;">Hydraulic Pressure</th>
+            <th colspan="2" style="width: 52%;">Oxygen Pressure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="width: 12%; text-align: left; padding-left: 6px;">Min PSI</td>
+            <td style="width: 12%;"><input class="blank-input w-50" data-ans="1500"></td>
+            <td style="width: 12%; text-align: left; padding-left: 6px;">Max PSI</td>
+            <td style="width: 12%;"><input class="blank-input w-50" data-ans="3200"></td>
+            <td style="width: 20%; text-align: left; padding-left: 8px;">Normal Range</td>
+            <td style="width: 32%; text-align: center;"><input class="blank-input w-35" data-ans="50"> PSI to <input class="blank-input w-35" data-ans="120"> PSI</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; padding-left: 6px;">Normal Range</td>
+            <td colspan="3"><input class="blank-input w-50" data-ans="2850"> PSI to <input class="blank-input w-50" data-ans="3200"> PSI</td>
+            <td colspan="2" class="shaded" style="height: 24px;"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- WSSP Limitations & Airspeed Limits Table -->
-    <table class="one-to-one-table">
-      <tbody>
-        <tr>
-          <td style="width: 20%; font-weight: bold; text-align: left; padding-left: 6px;">WSSP Limitations:</td>
-          <td style="width: 25%;">Sym &nbsp;<input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-35" data-ans="+4.0"></td>
-          <td style="width: 25%;">Asym &nbsp;<input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-35" data-ans="+3.0"></td>
-          <td style="width: 30%;">Normal Capacity &nbsp;<input class="blank-input w-40" data-ans="140"> LBS</td>
-        </tr>
-        <tr>
-          <td style="font-weight: bold; text-align: left; padding-left: 6px;">Airspeed Limits:</td>
-          <td>Max &nbsp;<input class="blank-input w-50" data-ans="400"> KCAS</td>
-          <td>SB Open / Turbulence &nbsp;<input class="blank-input w-40" data-ans="350"> KCAS</td>
-          <td>Abrupt Control &nbsp;<input class="blank-input w-40" data-ans="240"> KCAS</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive-wrapper" style="border-bottom: none;">
+      <table class="one-to-one-table">
+        <tbody>
+          <tr>
+            <td style="width: 20%; font-weight: bold; text-align: left; padding-left: 6px;">WSSP Limitations:</td>
+            <td style="width: 25%;">Sym &nbsp;<input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-35" data-ans="+4.0"></td>
+            <td style="width: 25%;">Asym &nbsp;<input class="blank-input w-30" data-ans="0"> to <input class="blank-input w-35" data-ans="+3.0"></td>
+            <td style="width: 30%;">Normal Capacity &nbsp;<input class="blank-input w-40" data-ans="140"> LBS</td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold; text-align: left; padding-left: 6px;">Airspeed Limits:</td>
+            <td>Max &nbsp;<input class="blank-input w-50" data-ans="400"> KCAS</td>
+            <td>SB Open / Turbulence &nbsp;<input class="blank-input w-40" data-ans="350"> KCAS</td>
+            <td>Abrupt Control &nbsp;<input class="blank-input w-40" data-ans="240"> KCAS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- DASH -1 Prohibited Maneuvers -->
     <div class="prohibited-title">
@@ -1269,14 +1329,12 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
       hamburgerBtn.classList.remove('open');
     }
 
-    // Close on click outside
     document.addEventListener('click', (e) => {
       if (!navDropdown.contains(e.target) && !hamburgerBtn.contains(e.target)) {
         closeNavMenu();
       }
     });
 
-    // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeNavMenu();
@@ -1864,7 +1922,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         document.getElementById('rndDrillMissedBtn').style.display = 'none';
         document.getElementById('rndShowAllBtn').style.display = 'inline-block';
         document.getElementById('scoreBanner').className = 'score-banner score-fail';
-        document.getElementById('scoreBanner').textContent = `Drilling Missed Random Questions (${countMissed} remaining)...`;
+        document.getElementById('scoreBanner').textContent = `Drilling Missed Questions (${countMissed} remaining)...`;
 
         if (firstMissed) firstMissed.focus();
       } else {
@@ -2095,6 +2153,7 @@ AIRSPEED - ATTAIN FINAL APPROACH SPEED MINIMUM
         });
 
         container.innerHTML = html;
+        setupNumpadAutoTab('#page-random');
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
